@@ -45,7 +45,7 @@ export default function useUsers() {
     const handleSignup = useCallback(async (user) => {
         try {
             const response = await signup(user);
-            setSnack("success", "you signed up successfully");
+            setSnack("success", "נרשמת בהצלחה");
             await handleLogin({ email: user.email, password: user.password });
         } catch (err) {
             setError(err.message);
