@@ -6,16 +6,14 @@ export default function Header() {
     return (
         <AppBar position="static" elevation={0} sx={{ backgroundColor: "#eee", color: "black" }}>
             <Toolbar>
-                {/* אייקון סמיילי בצד שמאל */}
                 <EmojiEmotionsIcon sx={{ mr: "auto" }} />
 
-                {/* לוגו במרכז */}
                 <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
                     <Box
                         component="img"
-                        src="/books.png"
+                        src="/images/logo.png"
                         alt="books"
-                        sx={{ height: 50 }} // התאמת גובה התמונה
+                        sx={{ height: 70 }}
                     />
                 </Box>
             </Toolbar>
