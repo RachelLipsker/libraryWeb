@@ -2,7 +2,7 @@ import React from 'react';
 import { Container } from '@mui/material';
 import BookComponent from './BookComponent';
 
-export default function Books({ books }) {
+export default function Books({ books, handleLike }) {
 
     return (
         <>
@@ -10,6 +10,7 @@ export default function Books({ books }) {
                 {books.map((book) => <BookComponent
                     key={book._id}
                     book={book}
+                    handleLike={handleLike}
                 />)}
             </Container>
         </>

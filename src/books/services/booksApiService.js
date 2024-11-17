@@ -11,3 +11,14 @@ export const getBooks = async () => {
         throw new Error(err.message)
     }
 }
+
+
+export const changeLikeStatus = async (id) => {
+    try {
+        let response = await axios.patch(apiUrl + "/like/" + id);
+        const data = response.data
+        return data;
+    } catch (err) {
+        throw new Error(err.message)
+    }
+}

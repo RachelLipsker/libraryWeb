@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
     Card,
     CardContent,
@@ -10,8 +10,28 @@ import {
     IconButton
 } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import { useCurrentUser } from "../../users/providers/UserProvider";
 
-export default function BookComponent({ book }) {
+export default function BookComponent({ book, handleLike }) {
+    const { user } = useCurrentUser();
+    const [liked, setLiked] = useState(() => {
+        if (!user) {
+            return false;
+        } else {
+            return !!book.likes.find(id => id === user._id)
+        }
+    });
+    const [likesLength, setLikesLength] = useState(book.likes.length)
+    const likeBook = () => {
+        handleLike(book._id, user);
+        if (liked) {
+            setLikesLength(prev => prev - 1)
+        } else {
+            setLikesLength(prev => prev + 1)
+        }
+        setLiked(prev => !prev);
+    }
+
     return (
         <Card key={book._id} sx={{ maxWidth: 500, m: 2 }}> {/* הגדלת הרוחב */}
             <CardMedia
@@ -61,10 +81,10 @@ export default function BookComponent({ book }) {
                         הזמן
                     </Button>
                     <Box sx={{ display: "flex", alignItems: "center" }}>
-                        <IconButton>
-                            <FavoriteIcon />
+                        <IconButton onClick={likeBook}>
+                            <FavoriteIcon style={{ color: liked ? "#91D2F1" : "inherit" }} />
                         </IconButton>
-                        <Typography variant="body2">{book.likes.length}</Typography>
+                        <Typography variant="body2">{likesLength}</Typography>
                     </Box>
                 </Box>
             </CardContent>
