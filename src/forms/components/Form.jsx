@@ -5,7 +5,6 @@ import FormButton from "./FormButton";
 import { useNavigate } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import LoopIcon from "@mui/icons-material/Loop";
-import { useTheme } from "../../providers/CustomThemeProvider";
 
 const Form = ({
   title = "",
@@ -19,7 +18,6 @@ const Form = ({
   children,
 }) => {
   const navigate = useNavigate();
-  const { isDark } = useTheme();
   return (
     <Box
       component="form"
@@ -29,7 +27,7 @@ const Form = ({
       autoComplete="off"
       noValidate
     >
-      <Typography align="center" variant="h5" component="h1" mb={2} sx={{ color: isDark ? "#fff" : "inherit" }}>
+      <Typography align="center" variant="h5" component="h1" mb={2}>
         {title.toUpperCase()}
       </Typography>
 
@@ -40,7 +38,7 @@ const Form = ({
       <Grid container spacing={1} my={2} direction="row" width="100">
         <Grid item xs={12} sm={6}>
           <FormButton
-            node="cancel"
+            node="ביטול"
             color="error"
             component="div"
             variant="outlined"
@@ -57,7 +55,7 @@ const Form = ({
         </Grid>
         <Grid item xs={12}>
           <FormButton
-            node="Submit"
+            node="שליחה"
             onClick={onSubmit}
             disabled={!validateForm()}
             size="large"

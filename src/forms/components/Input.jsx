@@ -1,6 +1,5 @@
 import React from "react";
 import TextField from "@mui/material/TextField";
-
 import Grid from "@mui/material/Grid";
 import { makeFirstLetterCapital } from "../utils/algoMethods";
 
@@ -30,6 +29,20 @@ const Input = ({
         onChange={onChange}
         fullWidth
         autoComplete="off"
+        slotProps={{
+          input: {
+            style: {
+              textAlign: "right", // יישור הטקסט לימין
+              direction: "rtl",   // כיוון RTL
+            },
+          },
+          inputLabel: {
+            style: {
+              textAlign: "right", // יישור התווית לימין
+              direction: "rtl",   // כיוון RTL לתווית
+            },
+          },
+        }}
       />
     </Grid>
   );
