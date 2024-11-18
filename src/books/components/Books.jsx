@@ -3,7 +3,7 @@ import { Container } from '@mui/material';
 import BookComponent from './BookComponent';
 import { useCurrentUser } from '../../users/providers/UserProvider';
 
-export default function Books({ books, handleLike, handleOrder, profile }) {
+export default function Books({ books, handleLike, handleOrder, profile, handleDeleteBook }) {
     const { user } = useCurrentUser();
     const [booksToOrder, setBooksToOrder] = useState(profile?.booksToOrder || 0);
 
@@ -31,6 +31,7 @@ export default function Books({ books, handleLike, handleOrder, profile }) {
                     ableToOrder={ableToOrder}
                     setUserOrdersLength={setUserOrdersLength}
                     setAbleToOrder={setAbleToOrder}
+                    handleDeleteBook={handleDeleteBook}
                 />)}
             </Container>
         </>

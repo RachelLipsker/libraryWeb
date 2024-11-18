@@ -32,3 +32,12 @@ export const changeOrderStatus = async (id) => {
     }
 }
 
+export const deleteBook = async (id) => {
+    try {
+        let response = await axios.delete(apiUrl + "/" + id);
+        const data = response.data
+        return data;
+    } catch (err) {
+        throw new Error(err.message)
+    }
+}

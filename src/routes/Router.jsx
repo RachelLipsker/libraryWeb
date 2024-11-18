@@ -4,6 +4,7 @@ import ROUTES from './routerModel'
 import BooksPage from '../books/pages/BooksPage'
 import LoginPage from '../users/pages/LoginPage'
 import SignUpPage from '../users/pages/SignupPage'
+import ProfilePage from '../users/pages/ProfilePage'
 
 export default function Router() {
     return (
@@ -11,6 +12,7 @@ export default function Router() {
             <Route path={ROUTES.ROOT} element={<BooksPage />} />
             <Route path={ROUTES.LOGIN} element={<LoginPage />} />
             <Route path={ROUTES.SIGNUP} element={<SignUpPage />} />
+            <Route path={ROUTES.USER_PROFILE} element={<ProfilePage />} />
 
         </Routes>
     )

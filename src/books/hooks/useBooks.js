@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import { changeLikeStatus, changeOrderStatus, getBooks } from "../services/booksApiService";
+import { changeLikeStatus, changeOrderStatus, deleteBook, getBooks } from "../services/booksApiService";
 import useAxios from "../../hooks/useAxios";
 import ROUTES from "../../routes/routerModel";
 import { useSnack } from "../../providers/snackBarProvider";
@@ -45,12 +45,23 @@ export default function useBooks() {
                 await changeOrderStatus(id);
             } else {
                 navigate(ROUTES.LOGIN);
-                setSnack("success", "ההזמנה שונתה");
             }
         } catch (err) {
             setSnack("error", err.message);
         }
     }, []);
+
+    const handleDeleteBook = useCallback(async (id) => {
+        try {
+            const deldetedBook = await deleteBook(id);
+            setSnack("success", "הספר נמחק");
+            setBooks(books => books.filter(book => book._id !== deldetedBook._id));
+        } catch (e) {
+            setSnack("error", err.message);
+        }
+    }, []);
+
+
 
     return {
         getAllBooks,
@@ -58,6 +69,7 @@ export default function useBooks() {
         isLoading,
         error,
         handleLike,
-        handleOrder
+        handleOrder,
+        handleDeleteBook
     };
 }

@@ -5,7 +5,7 @@ import { useCurrentUser } from '../../users/providers/UserProvider';
 import useUsers from '../../users/hooks/useUsers';
 
 export default function BooksPage() {
-    const { books, getAllBooks, isLoading, error, handleLike, handleOrder } =
+    const { books, getAllBooks, isLoading, error, handleLike, handleOrder, handleDeleteBook } =
         useBooks();
     const { user } = useCurrentUser();
     const { profile, getUserById } = useUsers();
@@ -24,6 +24,7 @@ export default function BooksPage() {
                 handleLike={handleLike}
                 handleOrder={handleOrder}
                 profile={profile}
+                handleDeleteBook={handleDeleteBook}
             />
         </>
     )
