@@ -22,16 +22,16 @@ export const signup = async (user) => {
     }
 };
 
-// export const getUserProfile = async (id) => {
-//     try {
-//         const response = await axios.get(apiUrl + "/" + id);
-//         const data = response.data;
-//         return data;
-//     } catch (err) {
-//         console.log(err);
-//         throw new Error(err.message);
-//     }
-// };
+export const getUserProfile = async (id) => {
+    try {
+        const response = await axios.get(apiUrl + "/" + id);
+        const data = response.data;
+        return data;
+    } catch (err) {
+        console.log(err);
+        throw new Error(err.message);
+    }
+};
 
 // export const editUser = async (id, user) => {
 //     try {

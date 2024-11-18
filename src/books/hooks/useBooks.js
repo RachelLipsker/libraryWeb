@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import { changeLikeStatus, getBooks } from "../services/booksApiService";
+import { changeLikeStatus, changeOrderStatus, getBooks } from "../services/booksApiService";
 import useAxios from "../../hooks/useAxios";
 import ROUTES from "../../routes/routerModel";
 import { useSnack } from "../../providers/snackBarProvider";
@@ -35,17 +35,29 @@ export default function useBooks() {
                 navigate(ROUTES.LOGIN);
             }
         } catch (err) {
-            setError(err.message);
             setSnack("error", err.message);
         }
     }, []);
 
+    const handleOrder = useCallback(async (id, user) => {
+        try {
+            if (user) {
+                await changeOrderStatus(id);
+            } else {
+                navigate(ROUTES.LOGIN);
+                setSnack("success", "ההזמנה שונתה");
+            }
+        } catch (err) {
+            setSnack("error", err.message);
+        }
+    }, []);
 
     return {
         getAllBooks,
         books,
         isLoading,
         error,
-        handleLike
+        handleLike,
+        handleOrder
     };
 }

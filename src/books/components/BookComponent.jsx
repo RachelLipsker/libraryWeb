@@ -1,18 +1,18 @@
-import React, { useState } from "react";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import {
+    Box,
+    Button,
     Card,
     CardContent,
     CardMedia,
-    Typography,
-    Box,
-    Button,
+    IconButton,
     Tooltip,
-    IconButton
+    Typography
 } from "@mui/material";
-import FavoriteIcon from "@mui/icons-material/Favorite";
+import React, { useEffect, useState } from "react";
 import { useCurrentUser } from "../../users/providers/UserProvider";
 
-export default function BookComponent({ book, handleLike }) {
+export default function BookComponent({ book, handleLike, handleOrder, profile, booksToOrder, userOrdersLength, ableToOrder, setAbleToOrder, setUserOrdersLength }) {
     const { user } = useCurrentUser();
     const [liked, setLiked] = useState(() => {
         if (!user) {
@@ -30,6 +30,66 @@ export default function BookComponent({ book, handleLike }) {
             setLikesLength(prev => prev + 1)
         }
         setLiked(prev => !prev);
+    }
+
+
+
+    //////////////////
+
+
+    const [idOrders, setIdOrders] = useState(() => {
+        return book.orders.map(order => order.userId) || [];
+    })
+
+    const [ordered, setordered] = useState(() => {
+        if (!user) {
+            return false;
+        } else {
+            return !!idOrders.find(id => id == user._id)
+        }
+    });
+
+    // const [booksToOrder, setBooksToOrder] = useState(profile?.booksToOrder || 0)
+
+    // const [userOrdersLength, setUserOrdersLength] = useState(profile?.orders?.length || 0)
+
+    const [bookOrdersLength, setBookOrdersLength] = useState(book.orders?.length || 0)
+
+    const [userNames, setUserNames] = useState(() => {
+        return book.orders?.map(order => order.userName) || [];
+    })
+
+    // const [ableToOrder, setAbleToOrder] = useState(() => {
+    //     if (!user || userOrdersLength >= booksToOrder) {
+    //         return false;
+    //     } else {
+    //         return true;
+    //     }
+    // });
+
+    useEffect(() => {
+        if (!user || userOrdersLength >= booksToOrder) {
+            setAbleToOrder(false)
+        } else {
+            setAbleToOrder(true)
+        }
+    }, [userOrdersLength, booksToOrder, user])
+
+    const orderBook = () => {
+        handleOrder(book._id, user._id)
+        if (ordered) {
+            setUserOrdersLength(prev => prev - 1)
+            setBookOrdersLength(prev => prev - 1)
+            setUserNames(prev => prev.slice(0, -1));
+            setIdOrders(prev => prev.slice(0, -1))
+        } else {
+            setUserOrdersLength(prev => prev + 1);
+            setBookOrdersLength(prev => prev + 1);
+            setUserNames(prev => [...prev, profile.firstName + " " + profile.lastName]);
+            setIdOrders(prev => [...prev, user._id]);
+        }
+
+        setordered(prev => !prev);
     }
 
     return (
@@ -62,24 +122,31 @@ export default function BookComponent({ book, handleLike }) {
                 {/* הספר מוזמן / הספר לא מוזמן */}
                 <Tooltip
                     title={
-                        book.orders.length > 0
-                            ? book.orders.map(order => order.userName).join(", ")
+                        bookOrdersLength > 0
+                            ? userNames.join(", ")
                             : ""
                     }
                     arrow
                 >
                     <Typography variant="body2" sx={{ color: "#F68832" }}>
-                        {book.orders.length > 0
-                            ? `הספר מוזמן ע"י ${book.orders.length}`
+                        {bookOrdersLength > 0
+                            ? `הספר מוזמן ע"י ${bookOrdersLength}`
                             : "הספר לא מוזמן "}
                     </Typography>
                 </Tooltip>
 
                 {/* כפתור הזמן ואייקון לב */}
                 <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", mt: 2 }}>
-                    <Button variant="contained" sx={{ backgroundColor: "#F68832" }}>
-                        הזמן
+                    { }
+                    <Button
+                        variant="contained"
+                        sx={{ backgroundColor: "#F68832" }}
+                        disabled={!(ordered || ableToOrder)}
+                        onClick={orderBook}
+                    >
+                        {ordered ? "הסר הזמנה" : "הזמן"}
                     </Button>
+
                     <Box sx={{ display: "flex", alignItems: "center" }}>
                         <IconButton onClick={likeBook}>
                             <FavoriteIcon style={{ color: liked ? "#91D2F1" : "inherit" }} />
@@ -88,6 +155,6 @@ export default function BookComponent({ book, handleLike }) {
                     </Box>
                 </Box>
             </CardContent>
-        </Card>
+        </Card >
     );
 }

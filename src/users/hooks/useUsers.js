@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import ROUTES from "../../routes/routerModel";
 import useAxios from "../../hooks/useAxios";
 import { useSnack } from "../../providers/snackBarProvider";
-import { login, signup } from "../services/userApiService";
+import { getUserProfile, login, signup } from "../services/userApiService";
 
 export default function useUsers() {
     const [isLoading, setIsLoading] = useState(true);
@@ -54,16 +54,15 @@ export default function useUsers() {
         setIsLoading(false);
     }, [])
 
-    // const getUserById = useCallback(async (id) => {
-    //     try {
-    //         const userProfile = await getUserProfile(id);
-    //         setProfile(userProfile);
-    //     } catch (err) {
-    //         setError(err.message);
-    //         setSnack("error", err.message);
-    //     }
-    //     setIsLoading(false);
-    // }, [])
+    const getUserById = useCallback(async (id) => {
+        try {
+            const userProfile = await getUserProfile(id);
+            setProfile(userProfile);
+        } catch (err) {
+            setSnack("error", err.message);
+        }
+        setIsLoading(false);
+    }, [])
 
 
     // const handleUpdateUser = useCallback(
@@ -88,11 +87,11 @@ export default function useUsers() {
     return {
         isLoading,
         error,
-        // profile,
+        profile,
         handleLogin,
         handleLogout,
         handleSignup,
-        // getUserById,
+        getUserById,
         // handleUpdateUser
     };
 }

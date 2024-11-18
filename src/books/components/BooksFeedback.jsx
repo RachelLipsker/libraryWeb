@@ -4,7 +4,7 @@ import { Typography } from "@mui/material";
 import Books from "./Books";
 import Error from "../../components/Error";
 
-export default function BooksFeedback({ isLoading, books, error, handleLike }) {
+export default function BooksFeedback({ isLoading, books, error, handleLike, handleOrder, profile }) {
     if (isLoading) return <Spinner />;
     if (error) return <Error errorMessage={error} />;
     if (books && books.length === 0)
@@ -18,6 +18,8 @@ export default function BooksFeedback({ isLoading, books, error, handleLike }) {
             <Books
                 books={books}
                 handleLike={handleLike}
+                handleOrder={handleOrder}
+                profile={profile}
             />
         );
 
