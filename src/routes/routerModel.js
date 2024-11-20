@@ -7,6 +7,7 @@ const ROUTES = {
     SIGNUP: "/signup",
     LOGIN: "/login",
     USER_PROFILE: "/user-info",
+    EDIT_BOOK: "/edit-book"
 };
 
 export default ROUTES;

@@ -1,20 +1,17 @@
 import React from 'react';
-import { AppBar, Toolbar, Box, Typography } from '@mui/material';
-import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
-import { useCurrentUser } from '../../users/providers/UserProvider';
-import NavLink from '../../components/NavLink';
-import ROUTES from '../../routes/routerModel';
+import { AppBar, Toolbar, Box } from '@mui/material';
 import { MenuProvider } from './menu/MenuProvider';
 import RightNav from './rightNav';
+import { useNavigate } from 'react-router-dom';
+import ROUTES from '../../routes/routerModel';
 
 export default function Header() {
-    const { user } = useCurrentUser();
+    const navigate = useNavigate();
     return (
         <MenuProvider>
             <AppBar position="static" elevation={0} sx={{ backgroundColor: "#eee", color: "black" }}>
                 <Toolbar>
                     <RightNav />
-
 
                     <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
                         <Box
@@ -22,6 +19,7 @@ export default function Header() {
                             src="/images/logo.png"
                             alt="books"
                             sx={{ height: 70 }}
+                            onClick={() => navigate(ROUTES.ROOT)}
                         />
                     </Box>
                 </Toolbar>

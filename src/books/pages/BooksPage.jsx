@@ -3,6 +3,8 @@ import useBooks from '../hooks/useBooks';
 import BooksFeedback from '../components/BooksFeedback';
 import { useCurrentUser } from '../../users/providers/UserProvider';
 import useUsers from '../../users/hooks/useUsers';
+import AddButton from '../../components/AddButton';
+import AllAuthors from '../../authors/components/AllAuthors';
 
 export default function BooksPage() {
     const { books, getAllBooks, isLoading, error, handleLike, handleOrder, handleDeleteBook } =
@@ -17,6 +19,11 @@ export default function BooksPage() {
     }, [user]);
     return (
         <>
+
+            {user?.isAdmin ? <>
+                <AllAuthors books={books} />
+
+            </> : null}
             <BooksFeedback
                 books={books}
                 isLoading={isLoading}
