@@ -41,3 +41,24 @@ export const deleteBook = async (id) => {
         throw new Error(err.message)
     }
 }
+
+export const createBook = async (newBook) => {
+    try {
+        let response = await axios.post(apiUrl, newBook);
+        const data = response.data
+        return data;
+    } catch (err) {
+        throw new Error(err.message)
+    }
+}
+
+
+export const resetOrders = async () => {
+    try {
+        let response = await axios.patch(apiUrl + "/orders");
+        const data = response.data
+        return data;
+    } catch (err) {
+        throw new Error(err.message)
+    }
+}

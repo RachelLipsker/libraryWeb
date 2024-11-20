@@ -47,7 +47,7 @@ export default function AllGenres({ books }) {
     return (
         <Box
             sx={{
-                width: "20%",
+                // width: "20%",
                 p: 1,
                 border: "1px solid #ccc",
                 borderRadius: 2,
@@ -77,7 +77,7 @@ export default function AllGenres({ books }) {
                 <TextField
                     fullWidth
                     variant="outlined"
-                    placeholder="הכנס שם ז'אנר"
+                    placeholder="ז'אנר"
                     value={newGenreName}
                     onChange={(e) => setNewGenreName(e.target.value)}
                     InputProps={{

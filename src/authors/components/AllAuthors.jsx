@@ -47,7 +47,6 @@ export default function AllAuthors({ books }) {
     return (
         <Box
             sx={{
-                width: "20%",
                 p: 1,
                 border: "1px solid #ccc",
                 borderRadius: 2,
@@ -77,7 +76,7 @@ export default function AllAuthors({ books }) {
                 <TextField
                     fullWidth
                     variant="outlined"
-                    placeholder="הכנס שם סופר"
+                    placeholder="סופר"
                     value={newAuthorName}
                     onChange={(e) => setNewAuthorName(e.target.value)}
                     InputProps={{

@@ -19,7 +19,7 @@ export default function Books({ books, handleLike, handleOrder, profile, handleD
 
     return (
         <>
-            <Container sx={{ display: "flex", flexWrap: "wrap", flexDirection: "row-reverse" }}>
+            <Container sx={{ display: "flex", flexDirection: "row-reverse", justifyContent: "space-evenly", flexWrap: "wrap" }}>
                 {books.map((book) => <BookComponent
                     key={book._id}
                     book={book}
