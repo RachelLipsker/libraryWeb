@@ -5,7 +5,7 @@ import { useCurrentUser } from '../../users/providers/UserProvider';
 import useUsers from '../../users/hooks/useUsers';
 import AddButton from '../../components/AddButton';
 import AllAuthors from '../../authors/components/AllAuthors';
-
+import AllGenres from '../../genres/components/AllGenres';
 export default function BooksPage() {
     const { books, getAllBooks, isLoading, error, handleLike, handleOrder, handleDeleteBook } =
         useBooks();
@@ -22,7 +22,7 @@ export default function BooksPage() {
 
             {user?.isAdmin ? <>
                 <AllAuthors books={books} />
-
+                <AllGenres books={books} />
             </> : null}
             <BooksFeedback
                 books={books}
