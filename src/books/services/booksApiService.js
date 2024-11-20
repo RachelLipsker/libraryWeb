@@ -62,3 +62,24 @@ export const resetOrders = async () => {
         throw new Error(err.message)
     }
 }
+
+
+export const editBook = async (bookId, newBook) => {
+    try {
+        let response = await axios.put(apiUrl + "/" + bookId, newBook);
+        const data = response.data
+        return data;
+    } catch (err) {
+        throw new Error(err.message)
+    }
+}
+
+export const getBook = async (bookId) => {
+    try {
+        let response = await axios.get(apiUrl + "/" + bookId);
+        const data = response.data;
+        return data;
+    } catch (err) {
+        throw new Error(err.message)
+    }
+}

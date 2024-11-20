@@ -48,7 +48,7 @@ export default function createBook() {
             onSubmit={onSubmit}
             onReset={handleReset}
             validateForm={validateForm}
-            title={"add card"}
+            title={"הוספת ספר"}
             errors={errors}
             data={data}
             onInputChange={handleChange}

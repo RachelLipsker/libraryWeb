@@ -7,6 +7,7 @@ import SignUpPage from '../users/pages/SignupPage'
 import ProfilePage from '../users/pages/ProfilePage'
 import CreateBook from '../books/pages/CreateBook'
 import ErrorPage from '../pages/ErrorPage'
+import EditBookPage from '../books/pages/EditBookPage'
 
 export default function Router() {
     return (
@@ -16,6 +17,7 @@ export default function Router() {
             <Route path={ROUTES.SIGNUP} element={<SignUpPage />} />
             <Route path={ROUTES.USER_PROFILE} element={<ProfilePage />} />
             <Route path={ROUTES.CREATE_BOOK} element={<CreateBook />} />
+            <Route path={ROUTES.EDIT_BOOK + "/:id"} element={<EditBookPage />} />
 
 
 

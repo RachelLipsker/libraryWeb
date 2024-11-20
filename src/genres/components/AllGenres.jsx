@@ -112,13 +112,13 @@ export default function AllGenres({ books }) {
                                     <Edit />
                                 </IconButton>
                             )}
+
                             {/* Hide Delete button when in edit mode */}
-                            {editingGenreId !== genre._id && (
-                                !!books?.map(book => book.genre._id).find(id => id !== genre._id) && (
-                                    <IconButton onClick={() => deleteGenre(genre._id)} >
-                                        <Delete />
-                                    </IconButton>
-                                )
+                            {(!!books?.map(book => book.genre._id).find(id => id == genre._id) || editingGenreId == genre._id ? null : (
+                                <IconButton onClick={() => deleteGenre(genre._id)} >
+                                    <Delete />
+                                </IconButton>
+                            )
                             )}
                         </Box>
 

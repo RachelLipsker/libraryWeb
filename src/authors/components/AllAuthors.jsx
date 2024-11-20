@@ -112,12 +112,11 @@ export default function AllAuthors({ books }) {
                                 </IconButton>
                             )}
                             {/* Hide Delete button when in edit mode */}
-                            {editingAuthorId !== author._id && (
-                                !!books?.map(book => book.author._id).find(id => id !== author._id) && (
-                                    <IconButton onClick={() => deleteAuthor(author._id)}>
-                                        <Delete />
-                                    </IconButton>
-                                )
+                            {(!!books?.map(book => book.author._id).find(id => id == author._id) || editingAuthorId == author._id ? null : (
+                                <IconButton onClick={() => deleteAuthor(author._id)}>
+                                    <Delete />
+                                </IconButton>
+                            )
                             )}
                         </Box>
 

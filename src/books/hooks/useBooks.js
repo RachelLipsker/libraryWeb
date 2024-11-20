@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import { changeLikeStatus, changeOrderStatus, createBook, deleteBook, getBooks, resetOrders } from "../services/booksApiService";
+import { changeLikeStatus, changeOrderStatus, createBook, deleteBook, editBook, getBook, getBooks, resetOrders } from "../services/booksApiService";
 import useAxios from "../../hooks/useAxios";
 import ROUTES from "../../routes/routerModel";
 import { useSnack } from "../../providers/snackBarProvider";
@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 export default function useBooks() {
 
     const [books, setBooks] = useState(null);
+    const [book, setBook] = useState(null);
     const [error, setError] = useState();
     const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
@@ -85,6 +86,32 @@ export default function useBooks() {
         setIsLoading(false);
     }, [])
 
+    const handleUpdateBook = useCallback(
+        async (bookId, newBook) => {
+            try {
+                const book = await editBook(bookId, newBook);
+                setBook(book);
+                setSnack("success", "הספר נערך בהצלחה");
+                setTimeout(() => {
+                    navigate(ROUTES.ROOT);
+                }, 300);
+            } catch (err) {
+                setSnack("error", err.message);
+            }
+            setIsLoading(false);
+        },
+        [setSnack, navigate]
+    );
+
+    const getBookById = useCallback(async (id) => {
+        try {
+            const oneBook = await getBook(id);
+            setBook(oneBook)
+        } catch (err) {
+            setSnack("error", err.message);
+        }
+        setIsLoading(false);
+    }, []);
 
     return {
         getAllBooks,
@@ -95,6 +122,9 @@ export default function useBooks() {
         handleOrder,
         handleDeleteBook,
         handleAddBook,
-        handleResetOrders
+        handleResetOrders,
+        handleUpdateBook,
+        getBookById,
+        book
     };
 }

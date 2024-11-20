@@ -3,7 +3,7 @@ import Form from "../../forms/components/Form";
 import Input from "../../forms/components/Input";
 import { Grid, Autocomplete, TextField, FormControl, FormHelperText } from "@mui/material";
 
-export default function BookForm({
+export default function EditBookForm({
     onSubmit,
     onReset,
     validateForm,
@@ -76,16 +76,6 @@ export default function BookForm({
                     {errors.author && <FormHelperText>{errors.author}</FormHelperText>}
                 </FormControl>
             </Grid>
-
-
-            <Input
-                name="title"
-                label="כותרת"
-                error={errors.title}
-                onChange={onInputChange}
-                data={data}
-                sm={6}
-            />
 
             <Input
                 name="image"
