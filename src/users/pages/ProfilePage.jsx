@@ -2,22 +2,21 @@ import React, { useEffect } from 'react';
 import { Box, Card, CardContent, CardMedia, Typography, Button, Grid, Divider } from '@mui/material';
 import useUsers from '../hooks/useUsers';
 import { useCurrentUser } from '../providers/UserProvider';
-import { Link, Navigate } from 'react-router-dom';
+import { Link, Navigate, useParams } from 'react-router-dom';
 import ROUTES from '../../routes/routerModel';
 import Spinner from '../../components/Spinner';
 import Error from '../../components/Error';
 
 export default function ProfilePage() {
+    const { id } = useParams();
     const { user } = useCurrentUser();
     const { getUserById, profile, isLoading, error } = useUsers();
 
     useEffect(() => {
-        if (user) {
-            getUserById(user._id);
-        }
-    }, [user]);
+        getUserById(id);
+    }, [id]);
 
-    if (!user) return <Navigate to={ROUTES.ROOT} replace />;
+    if (!user || (user?._id != id && !user?.isAdmin)) return <Navigate to={ROUTES.ROOT} replace />;
     if (isLoading) return <Spinner />;
     if (error) return <Error errorMessage={error} />;
 
@@ -39,9 +38,10 @@ export default function ProfilePage() {
                         <Typography variant="h4" sx={{ fontWeight: 'bold' }}>
                             {profile.firstName} {profile.lastName}
                         </Typography>
-                        <Button variant="contained" sx={{ fontWeight: 'bold', backgroundColor: "#F68832" }}>
+                        {user._id == id ? <Button variant="contained" sx={{ fontWeight: 'bold', backgroundColor: "#F68832" }}>
                             ערוך פרופיל
-                        </Button>
+                        </Button> : null}
+
                     </Box>
                     {profile.isAdmin ? <Typography
                         variant="body2"

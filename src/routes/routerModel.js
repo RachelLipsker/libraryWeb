@@ -1,13 +1,15 @@
 const ROUTES = {
     ROOT: "/",
-    ABOUT: "/about",
-    BOOKS: "/books",
-    FAV_BOOKS: "/fav-books",
+    // ABOUT: "/about",
+    // BOOKS: "/books",
+    //FAV_BOOKS: "/fav-books",
     CREATE_BOOK: "/create-book",
     SIGNUP: "/signup",
     LOGIN: "/login",
     USER_PROFILE: "/user-info",
-    EDIT_BOOK: "/edit-book"
+    EDIT_BOOK: "/edit-book",
+    USERS: "/users",
+    BORROWINGS_MANAGEMENT: "/borrowings-management"
 };
 
 export default ROUTES;

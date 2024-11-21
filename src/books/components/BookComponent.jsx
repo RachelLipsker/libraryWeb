@@ -98,9 +98,9 @@ export default function BookComponent({ book, handleLike, handleOrder, profile, 
                 <Box sx={{ display: "flex", justifyContent: "space-between" }}>
                     <Box>
                         {user?.isAdmin ? <>
-                            <IconButton onClick={() => handleDeleteBook(book._id)}>
+                            {book.inLibrary ? <IconButton onClick={() => handleDeleteBook(book._id)}>
                                 <DeleteIcon />
-                            </IconButton>
+                            </IconButton> : null}
                             <IconButton onClick={() => navigate(ROUTES.EDIT_BOOK + "/" + book._id)}>
                                 <EditIcon />
                             </IconButton>
@@ -150,7 +150,10 @@ export default function BookComponent({ book, handleLike, handleOrder, profile, 
                     <Button
                         variant="contained"
                         sx={{ backgroundColor: "#F68832" }}
-                        disabled={!(ordered || ableToOrder) || !!profile?.openBorrowings?.find(borrow => borrow.bookId == book._id)}
+                        disabled={!(ordered || ableToOrder)
+                            //||
+                            //  !!profile?.openBorrowings?.find(borrow => borrow.bookId == book._id)
+                        }
                         onClick={orderBook}
                     >
                         {ordered ? "הסר הזמנה" : "הזמן"}

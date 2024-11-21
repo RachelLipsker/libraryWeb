@@ -60,7 +60,7 @@ const Menu = ({ isOpen, anchorEl, onClose }) => {
                 {user && (
                     <>
 
-                        <MenuItem onClick={() => { onClose(); navigate(ROUTES.USER_PROFILE) }}>
+                        <MenuItem onClick={() => { onClose(); navigate(ROUTES.USER_PROFILE + "/" + user._id) }}>
                             <IconButton>
                                 <AccountCircleIcon />
                             </IconButton>

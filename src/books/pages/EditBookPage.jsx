@@ -48,6 +48,9 @@ export default function EditBookPage() {
         }
     }, [book, id]);
 
+    console.log(data);
+
+
     if (!user?.isAdmin) return <Navigate to={ROUTES.ROOT} replace />
     return (
         <>

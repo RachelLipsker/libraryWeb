@@ -5,7 +5,6 @@ import ROUTES from "../../routes/routerModel";
 import { useSnack } from "../../providers/snackBarProvider";
 import { useNavigate } from "react-router-dom";
 
-
 export default function useBooks() {
 
     const [books, setBooks] = useState(null);
@@ -58,7 +57,7 @@ export default function useBooks() {
             setSnack("success", "הספר נמחק");
             setBooks(books => books.filter(book => book._id !== deldetedBook._id));
         } catch (e) {
-            setSnack("error", err.message);
+            setSnack("error", e.message);
         }
     }, []);
 
@@ -89,8 +88,9 @@ export default function useBooks() {
     const handleUpdateBook = useCallback(
         async (bookId, newBook) => {
             try {
-                const book = await editBook(bookId, newBook);
-                setBook(book);
+                const upBook = await editBook(bookId, newBook);
+                setBook(upBook);
+                // setBooks(books => books.map(book => book._id == upBook._id ? upBook : book))
                 setSnack("success", "הספר נערך בהצלחה");
                 setTimeout(() => {
                     navigate(ROUTES.ROOT);

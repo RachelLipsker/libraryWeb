@@ -16,7 +16,7 @@ export default function ErrorPage() {
                 mt: 4
             }}>
                 <Box>
-                    <Typography sx={{ color: isDark ? "#fff" : "inherit" }} variant='h5' component="p">oops... the requwsted URL wasn't found on this server.
+                    <Typography variant='h5' component="p">oops... the requwsted URL wasn't found on this server.
                     </Typography>
                     <Button onClick={() => navigate(ROUTES.ROOT)}>
                         CLICK HERE TO RETURN TO THE HOME PAGE...
@@ -24,7 +24,7 @@ export default function ErrorPage() {
                 </Box>
                 <Box
                     component="img"
-                    src={isDark ? "../../public/images/whiteRobot.png" : "../../public/images/broken-robot-error.png"}
+                    src={"../../public/images/broken-robot-error.png"}
                     alt="an error"
                     sx={{ width: '100%', maxWidth: 340 }}
                 />

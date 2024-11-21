@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import ROUTES from "../../routes/routerModel";
 import useAxios from "../../hooks/useAxios";
 import { useSnack } from "../../providers/snackBarProvider";
-import { getUserProfile, login, signup } from "../services/userApiService";
+import { getUserProfile, getUsers, login, signup, borrowingNumber, ordersNumber, patchAdmin, deleteUser } from "../services/userApiService";
 
 export default function useUsers() {
     const [isLoading, setIsLoading] = useState(true);
@@ -18,6 +18,7 @@ export default function useUsers() {
     const { setUser, setToken } = useCurrentUser();
     const navigate = useNavigate();
     const setSnack = useSnack();
+    const [users, setUsers] = useState();
 
     useAxios();
 
@@ -64,6 +65,57 @@ export default function useUsers() {
         setIsLoading(false);
     }, [])
 
+    const getAllUsers = useCallback(async () => {
+        try {
+            const data = await getUsers();
+            setUsers(data);
+        } catch (err) {
+            setError(err.message);
+        }
+        setIsLoading(false);
+    }, []);
+
+    const onUpdateBooksToBorrowing = useCallback(async (userId, number) => {
+        try {
+            const upUser = await borrowingNumber(userId, number);
+            setUsers(users => users.map(user => userId == user._id ? upUser : user));
+        } catch (err) {
+            setError(err.message);
+        }
+        setIsLoading(false);
+    }, []);
+
+    const onUpdateBooksToOrder = useCallback(async (userId, number) => {
+        try {
+            const upUser = await ordersNumber(userId, number);
+            setUsers(users => users.map(user => userId == user._id ? upUser : user));
+        } catch (err) {
+            setError(err.message);
+        }
+        setIsLoading(false);
+    }, []);
+
+    const onToggleUserRole = useCallback(async (userId) => {
+        try {
+            const upUser = await patchAdmin(userId);
+            setUsers(users => users.map(user => userId == user._id ? upUser : user));
+        } catch (err) {
+            setError(err.message);
+        }
+        setIsLoading(false);
+    }, []);
+
+    const onDeleteUser = useCallback(async (id) => {
+        try {
+            if (confirm("האם אתה בטוח שברצונך למחוק את המשתמש??")) {
+                const deldetedUser = await deleteUser(id);
+                setSnack("success", "המשתמש נמחק");
+                setUsers(users => users.filter(user => user._id !== deldetedUser._id));
+            }
+        } catch (e) {
+            setSnack("error", e.message);
+        }
+    }, []);
 
     // const handleUpdateUser = useCallback(
     //     async (userId, userFromClient) => {
@@ -92,6 +144,12 @@ export default function useUsers() {
         handleLogout,
         handleSignup,
         getUserById,
+        getAllUsers,
+        users,
+        onUpdateBooksToBorrowing,
+        onUpdateBooksToOrder,
+        onToggleUserRole,
+        onDeleteUser,
         // handleUpdateUser
     };
 }
