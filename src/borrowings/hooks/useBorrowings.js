@@ -15,9 +15,10 @@ export default function useBorrowings() {
     const onBorrow = useCallback(
         async (userId, bookId) => {
             try {
-                const borrowing = await createBorrowing(userId, bookId);
+                const { user, book, borrowing } = await createBorrowing(userId, bookId);
                 // setBorrowings(authors => authors.map(author => author._id == newAuthor._id ? newAuthor : author));
                 setSnack("success", "ההשאלה בוצעה בהצלחה")
+                return { user, book, borrowing };
             } catch (err) {
                 setSnack("error", err.message);
             }
@@ -29,9 +30,10 @@ export default function useBorrowings() {
     const onReturn = useCallback(
         async (userId, bookId) => {
             try {
-                const borrowing = await returnBook(userId, bookId);
+                const { user, book, borrowing } = await returnBook(userId, bookId);
                 // setBorrowings(authors => authors.map(author => author._id == newAuthor._id ? newAuthor : author));
                 setSnack("success", "ההחזרה בוצעה בהצלחה")
+                return { user, book, borrowing }
             } catch (err) {
                 setSnack("error", err.message);
             }
@@ -40,6 +42,20 @@ export default function useBorrowings() {
         []
     );
 
+    // const getAllBorrowings = useCallback(
+    //     async () => {
+    //         try {
+    //             const { user, book, borrowing } = await returnBook(userId, bookId);
+    //             // setBorrowings(authors => authors.map(author => author._id == newAuthor._id ? newAuthor : author));
+    //             setSnack("success", "ההחזרה בוצעה בהצלחה")
+    //             return { user, book, borrowing }
+    //         } catch (err) {
+    //             setSnack("error", err.message);
+    //         }
+    //         setIsLoading(false);
+    //     },
+    //     []
+    // );
 
 
 

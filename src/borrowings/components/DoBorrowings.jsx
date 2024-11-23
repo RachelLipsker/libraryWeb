@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     Box,
     Autocomplete,
@@ -13,6 +13,8 @@ const DoBorrowings = ({ users, books, onBorrow, onReturn }) => {
     const [selectedUser, setSelectedUser] = useState(null);
     const [selectedBook, setSelectedBook] = useState(null);
     const [action, setAction] = useState("borrow");
+    const [helperText, setHelperText] = useState("");
+
 
     const handleActionChange = (_, newAction) => {
         if (newAction) {
@@ -31,14 +33,31 @@ const DoBorrowings = ({ users, books, onBorrow, onReturn }) => {
     };
 
     // תנאי לזמינות הכפתור
-    const isButtonDisabled = !selectedUser ||
-        !selectedBook ||
-        (action == "borrow" && !selectedBook.inLibrary) ||
-        (action == "borrow" && selectedUser.openBorrowings?.length >= selectedUser.booksToBorrowing) ||
-        (action == "borrow" && selectedBook.orders?.length > 0 && selectedBook.orders[0].userId != selectedUser._id) ||
-        (action == "return" && selectedBook.inLibrary) ||
-        (action == "return" && selectedUser.openBorrowings?.length == 0) ||
-        (action == "return" && !(!!selectedUser.openBorrowings.map(borrow => borrow.bookId).find(bookId => bookId == selectedBook._id)))
+    // const isButtonDisabled = !selectedUser ||
+    //     !selectedBook ||
+    //     (action == "borrow" && !selectedBook.inLibrary) ||
+    //     (action == "borrow" && selectedUser.openBorrowings?.length >= selectedUser.booksToBorrowing) ||
+    //     (action == "borrow" && selectedBook.orders?.length > 0 && selectedBook.orders[0].userId != selectedUser._id) ||
+    //     (action == "return" && selectedBook.inLibrary) ||
+    //     (action == "return" && selectedUser.openBorrowings?.length == 0) ||
+    //     (action == "return" && !(!!selectedUser.openBorrowings.map(borrow => borrow.bookId).find(bookId => bookId == selectedBook._id)))
+
+    const isButtonDisabled = helperText == "" ? false : true;
+
+    useEffect(() => {
+        setHelperText(() => {
+            if (!selectedUser) return "לא נבחר משתמש";
+            if (!selectedBook) return "לא נבחר ספר";
+            if (action == "borrow" && !selectedBook.inLibrary) return "הספר לא בספריה";
+            if (action == "borrow" && selectedUser.openBorrowings?.length >= selectedUser.booksToBorrowing) return "המשתמש לא יכול להשאיל עוד ספר";
+            if (action == "borrow" && selectedBook.orders?.length > 0 && selectedBook.orders[0].userId != selectedUser._id) return "הספר מוזמן ע'י משתמש אחר";
+            if (action == "return" && selectedBook.inLibrary) return "הספר בספריה";
+            if (action == "return" && selectedUser.openBorrowings?.length == 0) return "המשתמש לא השאיל ספרים";
+            if (action == "return" && !(!!selectedUser.openBorrowings.map(borrow => borrow.bookId).find(bookId => bookId == selectedBook._id))) return "המשתמש לא השאיל ספר זה";
+            else return "";
+        })
+    }, [selectedBook, selectedUser, action])
+
 
     return (
         <Box
@@ -46,15 +65,28 @@ const DoBorrowings = ({ users, books, onBorrow, onReturn }) => {
             flexWrap="wrap"
             gap={2}
             dir="rtl"
+            // sx={{
+            //     width: "100%",
+            //     justifyContent: "space-between",
+            //     alignItems: "center",
+            //     padding: 2,
+            //     boxShadow: 2,
+            //     borderRadius: 2,
+            //     "@media (max-width: 600px)": {
+            //         flexDirection: "column",
+            //     },
+            // }}
+
             sx={{
                 width: "100%",
                 justifyContent: "space-between",
-                alignItems: "center",
+                alignItems: "center", // מוודא שכל האלמנטים מיושרים אנכית
                 padding: 2,
                 boxShadow: 2,
                 borderRadius: 2,
                 "@media (max-width: 600px)": {
                     flexDirection: "column",
+                    alignItems: "flex-start", // יישור שונה למסכים קטנים
                 },
             }}
         >
@@ -67,6 +99,7 @@ const DoBorrowings = ({ users, books, onBorrow, onReturn }) => {
                     <Box
                         component="li"
                         {...props}
+                        key={user._id}
                         sx={{ display: "flex", justifyContent: "space-between" }}
                     >
                         <Typography>{`${user.firstName} ${user.lastName}`}</Typography>
@@ -91,10 +124,10 @@ const DoBorrowings = ({ users, books, onBorrow, onReturn }) => {
 
 
             <Autocomplete
-                value={selectedBook} // מסנכרן את הערך של ה־Autocomplete עם הסטייט
+                value={selectedBook}
                 options={books}
                 getOptionLabel={(book) => book.title}
-                onChange={(event, newValue) => setSelectedBook(newValue || null)} // שומר את כל האובייקט
+                onChange={(event, newValue) => setSelectedBook(newValue || null)}
                 renderInput={(params) => (
                     <TextField {...params} label="בחר ספר" variant="outlined" size="medium" />
                 )}
@@ -125,19 +158,32 @@ const DoBorrowings = ({ users, books, onBorrow, onReturn }) => {
                     החזרה
                 </ToggleButton>
             </ToggleButtonGroup>
-            <Button
-                variant="contained"
-                onClick={handleSubmit}
-                disabled={isButtonDisabled}
+            <Box
+                //  sx={{ display: "flex", flexDirection: "column", alighItems: "flex-start" }}
                 sx={{
-                    height: "56px",
-                    whiteSpace: "nowrap",
-                    flex: "none",
-                    minWidth: "150px",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "flex-start", // ליישור הכפתור והטקסט
+                    justifyContent: "center", // כדי שהטיפוגרפיה תוצמד לכפתור
+                    gap: 1, // מרווח בין הכפתור לטקסט
+                    height: "100%", // גובה אחיד עם שאר האלמנטים
                 }}
             >
-                בצע
-            </Button>
+                <Button
+                    variant="contained"
+                    onClick={handleSubmit}
+                    disabled={isButtonDisabled}
+                    sx={{
+                        height: "56px",
+                        whiteSpace: "nowrap",
+                        flex: "none",
+                        minWidth: "150px",
+                    }}
+                >
+                    בצע
+                </Button>
+                <Typography>{helperText}</Typography>
+            </Box>
         </Box>
     );
 };

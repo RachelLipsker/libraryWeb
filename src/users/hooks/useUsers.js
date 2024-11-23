@@ -150,6 +150,7 @@ export default function useUsers() {
         onUpdateBooksToOrder,
         onToggleUserRole,
         onDeleteUser,
+        setUsers,
         // handleUpdateUser
     };
 }

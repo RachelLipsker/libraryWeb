@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function useBooks() {
 
-    const [books, setBooks] = useState(null);
+    const [books, setBooks] = useState();
     const [book, setBook] = useState(null);
     const [error, setError] = useState();
     const [isLoading, setIsLoading] = useState(true);
@@ -125,6 +125,7 @@ export default function useBooks() {
         handleResetOrders,
         handleUpdateBook,
         getBookById,
-        book
+        book,
+        setBooks,
     };
 }
