@@ -7,6 +7,7 @@ import {
     ListItem,
     ListItemText,
     IconButton,
+    Typography,
 } from "@mui/material";
 import { Edit, Delete, Save } from "@mui/icons-material";
 import useAuthors from "../hooks/useAuthors";
@@ -85,7 +86,7 @@ export default function AllAuthors({ books }) {
                     }}
                 />
             </Box>
-
+            <Typography>*לא ניתן למחוק סופר שבשימוש</Typography>
             {/* Authors List */}
             <List>
                 {authors.map((author) => (

@@ -65,28 +65,17 @@ const DoBorrowings = ({ users, books, onBorrow, onReturn }) => {
             flexWrap="wrap"
             gap={2}
             dir="rtl"
-            // sx={{
-            //     width: "100%",
-            //     justifyContent: "space-between",
-            //     alignItems: "center",
-            //     padding: 2,
-            //     boxShadow: 2,
-            //     borderRadius: 2,
-            //     "@media (max-width: 600px)": {
-            //         flexDirection: "column",
-            //     },
-            // }}
 
             sx={{
                 width: "100%",
                 justifyContent: "space-between",
-                alignItems: "center", // מוודא שכל האלמנטים מיושרים אנכית
+                alignItems: "start",
                 padding: 2,
                 boxShadow: 2,
                 borderRadius: 2,
                 "@media (max-width: 600px)": {
                     flexDirection: "column",
-                    alignItems: "flex-start", // יישור שונה למסכים קטנים
+                    alignItems: "flex-start",
                 },
             }}
         >
@@ -159,7 +148,6 @@ const DoBorrowings = ({ users, books, onBorrow, onReturn }) => {
                 </ToggleButton>
             </ToggleButtonGroup>
             <Box
-                //  sx={{ display: "flex", flexDirection: "column", alighItems: "flex-start" }}
                 sx={{
                     display: "flex",
                     flexDirection: "column",

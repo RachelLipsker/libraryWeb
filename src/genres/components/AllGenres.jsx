@@ -7,6 +7,7 @@ import {
     ListItem,
     ListItemText,
     IconButton,
+    Typography,
 } from "@mui/material";
 import { Edit, Delete, Save } from "@mui/icons-material";
 import useGenres from "../hooks/useGenres";
@@ -74,6 +75,7 @@ export default function AllGenres({ books }) {
                 >
                     הוסף
                 </Button>
+
                 <TextField
                     fullWidth
                     variant="outlined"
@@ -86,6 +88,7 @@ export default function AllGenres({ books }) {
                     }}
                 />
             </Box>
+            <Typography>*לא ניתן למחוק ז'אנר בשימוש</Typography>
 
             {/* Genres List */}
             <List>

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import useUsers from '../hooks/useUsers'
-import AllUsers from './AllUsers';
+import AllUsers from '../components/AllUsers';
 import Spinner from '../../components/Spinner';
 import Error from '../../components/Error';
 import { useCurrentUser } from '../providers/UserProvider';

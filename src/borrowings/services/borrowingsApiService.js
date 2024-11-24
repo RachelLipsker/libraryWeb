@@ -83,3 +83,14 @@ export const lastUserBorrowings = async (id) => {
         throw new Error(err.message);
     }
 };
+
+export const getBorrowings = async () => {
+    try {
+        const response = await axios.get(apiUrl);
+        const data = response.data;
+        return data;
+    } catch (err) {
+        console.log(err);
+        throw new Error(err.message);
+    }
+};

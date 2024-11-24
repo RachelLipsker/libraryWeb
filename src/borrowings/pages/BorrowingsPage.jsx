@@ -5,11 +5,12 @@ import useBorrowings from '../hooks/useBorrowings';
 import DoBorrowings from '../components/DoBorrowings';
 import Spinner from '../../components/Spinner';
 import Error from '../../components/Error';
+import Borrowings from '../components/Borrowings';
 
 export default function BorrowingsPage() {
     const { users, getAllUsers, setUsers, isLoading, error } = useUsers();
     const { books, getAllBooks, setBooks } = useBooks();
-    const { onBorrow, onReturn } = useBorrowings();
+    const { onBorrow, onReturn, borrowings } = useBorrowings();
 
     useEffect(() => {
         getAllBooks();
@@ -29,6 +30,7 @@ export default function BorrowingsPage() {
         setUsers(prevUsers => prevUsers.map(prevuser => prevuser._id === user._id ? user : prevuser));
     };
 
+
     if (isLoading) return <Spinner />
     if (error) return <Error errorMessage={error} />
 
@@ -39,6 +41,11 @@ export default function BorrowingsPage() {
                 books={books}
                 onBorrow={handleBorrow}
                 onReturn={handleReturn} />
+
+
+            <Borrowings
+                borrowings={borrowings} />
+
         </>
     )
 }

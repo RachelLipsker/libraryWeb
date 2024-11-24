@@ -8,7 +8,7 @@ import ProfilePage from '../users/pages/ProfilePage'
 import CreateBook from '../books/pages/CreateBook'
 import ErrorPage from '../pages/ErrorPage'
 import EditBookPage from '../books/pages/EditBookPage'
-import UsersPage from '../users/components/UsersPage'
+import UsersPage from '../users/pages/UsersPage'
 import BorrowingsPage from '../borrowings/pages/BorrowingsPage'
 
 export default function Router() {
