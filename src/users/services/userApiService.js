@@ -91,13 +91,13 @@ export const deleteUser = async (id) => {
 };
 
 
-// export const editUser = async (id, user) => {
-//     try {
-//         let response = await axios.put(apiUrl + "/" + id, user);
-//         const data = response.data
-//         return data;
-//     } catch (err) {
-//         console.log(err);
-//         throw new Error(err.message)
-//     }
-// }
+export const editUser = async (id, user) => {
+    try {
+        let response = await axios.put(apiUrl + "/" + id, user);
+        const data = response.data
+        return data;
+    } catch (err) {
+        console.log(err);
+        throw new Error(err.message)
+    }
+}

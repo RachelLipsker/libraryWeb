@@ -14,6 +14,7 @@ import BorrowingHistoryPage from '../borrowings/pages/BorrowingHistoryPage'
 import BorrowingUserHistoryPage from '../borrowings/pages/BorrowingUserHistoryPage'
 import OpenBorrowingsPage from '../borrowings/pages/OpenBorrowingsPage'
 import LateBorrowingsPage from '../borrowings/pages/LateBorrowingsPage'
+import EditProfilePage from '../users/pages/EditProfilePage'
 
 export default function Router() {
     return (
@@ -30,6 +31,8 @@ export default function Router() {
             <Route path={ROUTES.USER_HISTORY + "/:id"} element={<BorrowingUserHistoryPage />} />
             <Route path={ROUTES.OPEN_BORROWINGS} element={<OpenBorrowingsPage />} />
             <Route path={ROUTES.LATE_BORROWINGS} element={<LateBorrowingsPage />} />
+            <Route path={ROUTES.EDIT_PROFILE + "/:id"} element={<EditProfilePage />} />
+
 
             <Route path='*' element={<ErrorPage />} />
 

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Box, Card, CardContent, CardMedia, Typography, Button, Grid, Divider } from '@mui/material';
 import useUsers from '../hooks/useUsers';
 import { useCurrentUser } from '../providers/UserProvider';
-import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import ROUTES from '../../routes/routerModel';
 import Spinner from '../../components/Spinner';
 import Error from '../../components/Error';
@@ -28,9 +28,7 @@ export default function ProfilePage() {
     return (
         <Box sx={{ maxWidth: '1200px', margin: 'auto', p: 3, direction: 'rtl' }}>
 
-            {/* <Box sx={{ display: "flex", justifyContent: "space-between" }}> */}
             <Card sx={{ display: "flex", mb: 3, borderRadius: 2, boxShadow: 2, justifyContent: "space-between" }}>
-                {/* User's Details and Edit Button */}
                 <CardContent sx={{ flexGrow: 1 }}>
                     <Box
                         sx={{
@@ -43,7 +41,10 @@ export default function ProfilePage() {
                         <Typography variant="h4" sx={{ fontWeight: 'bold' }}>
                             {profile.firstName} {profile.lastName}
                         </Typography>
-                        {user._id == id ? <Button variant="contained" sx={{ fontWeight: 'bold', backgroundColor: "#F68832" }}>
+                        {user._id == id ? <Button
+                            variant="contained"
+                            sx={{ fontWeight: 'bold', backgroundColor: "#F68832" }}
+                            onClick={() => navigate(ROUTES.EDIT_PROFILE + "/" + id)}>
                             ערוך פרופיל
                         </Button> : null}
 
@@ -88,111 +89,136 @@ export default function ProfilePage() {
                 />
             </Card>
 
-            {/* </Box> */}
-
-            {/* Books the User Currently Holds */}
             <Card sx={{ mb: 3, borderRadius: 2, boxShadow: 2 }}>
                 <CardContent>
                     <Typography variant="h6" gutterBottom sx={{ textAlign: 'right', fontWeight: 'bold' }}>
-                        הספרים אצלי
+                        ספרים מושאלים
                     </Typography>
-                    {profile.orders.length > 0 ? (
-                        profile.orders.map((order, index) => (
-                            <Box key={index} sx={{ mb: 2 }}>
-                                <Typography variant="body1" sx={{ textAlign: 'right', fontWeight: 'bold' }}>
-                                    {order.bookTitle}
-                                </Typography>
-                                <Typography
-                                    variant="body2"
-                                    color="text.secondary"
-                                    sx={{ textAlign: 'right' }}
+                    <Box sx={{ display: "flex", gap: 3, flexWrap: "wrap" }}>
+                        {profile.openBorrowings.length > 0 ? (
+                            profile.openBorrowings.map((borrow, index) => (
+                                <Box
+                                    key={index}
+                                    sx={{
+                                        display: "flex",
+                                        flexDirection: "row", // תמונה מימין
+                                        alignItems: "center",
+                                        mb: 2,
+                                        gap: 3, // רווח בין התמונה לתוכן
+                                        textAlign: "right", // יישור כללי לימין
+                                    }}
                                 >
-                                    תאריך הזמנה: {new Date(order.orderDate).toLocaleDateString()}
-                                </Typography>
-                            </Box>
-                        ))
-                    ) : (
-                        <Typography
-                            variant="body2"
-                            color="text.secondary"
-                            sx={{ textAlign: 'right' }}
-                        >
-                            אין ספרים אצלי
-                        </Typography>
-                    )}
-                </CardContent>
-            </Card>
-
-            {/* Borrowing and Order Information */}
-            <Grid container spacing={3}>
-                <Grid item xs={12}>
-                    <Card sx={{ borderRadius: 2, boxShadow: 2 }}>
-                        <CardContent>
-                            <Typography variant="h6" gutterBottom sx={{ textAlign: 'right', fontWeight: 'bold' }}>
-                                ספרים בהזמנה
-                            </Typography>
-                            {profile.openBorrowings.length > 0 ? (
-                                profile.openBorrowings.map((borrow, index) => (
-                                    <Box key={index} sx={{ mb: 2 }}>
+                                    <Box
+                                        component="img"
+                                        src={borrow.bookImage}
+                                        alt={borrow.bookAlt || "תמונה של הספר"}
+                                        sx={{
+                                            width: 80,
+                                            height: 80,
+                                            borderRadius: "8px", // עיגול קצוות התמונה
+                                            boxShadow: 2, // צל קל
+                                        }}
+                                    />
+                                    <Box>
                                         <Typography
-                                            variant="body1"
-                                            sx={{ textAlign: 'right', fontWeight: 'bold' }}
+                                            variant="h6"
+                                            sx={{
+                                                fontWeight: "bold",
+                                                mb: 1, // רווח מתחת לכותרת
+                                            }}
                                         >
                                             {borrow.bookTitle}
                                         </Typography>
                                         <Typography
                                             variant="body2"
                                             color="text.secondary"
-                                            sx={{ textAlign: 'right' }}
                                         >
                                             תאריך החזרה: {new Date(borrow.finalDateToReturn).toLocaleDateString()}
                                         </Typography>
                                     </Box>
-                                ))
-                            ) : (
-                                <Typography
-                                    variant="body2"
-                                    color="text.secondary"
-                                    sx={{ textAlign: 'right' }}
-                                >
-                                    אין ספרים בהשאלה
-                                </Typography>
-                            )}
+                                </Box>
+                            ))
+                        ) : (
+                            <Typography
+                                variant="body2"
+                                color="text.secondary"
+                                sx={{ textAlign: "right" }}
+                            >
+                                אין ספרים מושאלים
+                            </Typography>
+                        )}
+                    </Box>
+                </CardContent>
+            </Card>
+
+            <Grid container spacing={3}>
+                <Grid item xs={12}>
+                    <Card sx={{ borderRadius: 2, boxShadow: 2 }}>
+                        <CardContent>
+                            <Typography variant="h6" gutterBottom sx={{ textAlign: 'right', fontWeight: 'bold' }}>
+                                ספרים מוזמנים
+                            </Typography>
+                            <Box sx={{ display: "flex", gap: 3, flexWrap: "wrap" }}>
+                                {profile.orders.length > 0 ? (
+                                    profile.orders.map((order, index) => (
+                                        <Box
+                                            key={index}
+                                            sx={{
+                                                display: "flex",
+                                                flexDirection: "row", // תמונה מימין
+                                                alignItems: "center",
+                                                mb: 2,
+                                                gap: 3, // רווח בין התמונה לתוכן
+                                                textAlign: "right", // יישור כללי לימין
+                                            }}
+                                        >
+                                            <Box
+                                                component="img"
+                                                src={order.bookImage}
+                                                alt={order.bookAlt || "תמונה של הספר"}
+                                                sx={{
+                                                    width: 80,
+                                                    height: 80,
+                                                    borderRadius: "8px", // עיגול קצוות התמונה
+                                                    boxShadow: 2, // צל קל
+                                                }}
+                                            />
+                                            <Box>
+                                                <Typography
+                                                    variant="h6"
+                                                    sx={{
+                                                        fontWeight: "bold",
+                                                        mb: 1, // רווח מתחת לכותרת
+                                                    }}
+                                                >
+                                                    {order.bookTitle}
+                                                </Typography>
+                                                <Typography
+                                                    variant="body2"
+                                                    color="text.secondary"
+                                                >
+                                                    תאריך הזמנה: {new Date(order.orderDate).toLocaleDateString()}
+                                                </Typography>
+                                            </Box>
+                                        </Box>
+                                    ))
+                                ) : (
+                                    <Typography
+                                        variant="body2"
+                                        color="text.secondary"
+                                        sx={{ textAlign: "right" }}
+                                    >
+                                        אין ספרים מוזמנים
+                                    </Typography>
+                                )}
+                            </Box>
+
                         </CardContent>
                     </Card>
                 </Grid>
 
                 <Grid item xs={12}>
                     <Card sx={{ borderRadius: 2, boxShadow: 2 }}>
-
-                        {/* {profile.openBorrowings.length > 0 ? (
-                                profile.openBorrowings.slice(0, 3).map((borrow, index) => (
-                                    <Box key={index} sx={{ mb: 2 }}>
-                                        <Typography
-                                            variant="body1"
-                                            sx={{ textAlign: 'right', fontWeight: 'bold' }}
-                                        >
-                                            {borrow.bookTitle}
-                                        </Typography>
-                                        <Typography
-                                            variant="body2"
-                                            color="text.secondary"
-                                            sx={{ textAlign: 'right' }}
-                                        >
-                                            תאריך החזרה: {new Date(borrow.finalDateToReturn).toLocaleDateString()}
-                                        </Typography>
-                                    </Box>
-                                ))
-                            ) : (
-                                <Typography
-                                    variant="body2"
-                                    color="text.secondary"
-                                    sx={{ textAlign: 'right' }}
-                                >
-                                    אין השאלות אחרונות
-                                </Typography>
-                            )} */}
-
                         <CardContent>
                             <Typography variant="h6" gutterBottom sx={{ textAlign: 'right', fontWeight: 'bold' }}>
                                 השאלות אחרונות

@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import ROUTES from "../../routes/routerModel";
 import useAxios from "../../hooks/useAxios";
 import { useSnack } from "../../providers/snackBarProvider";
-import { getUserProfile, getUsers, login, signup, borrowingNumber, ordersNumber, patchAdmin, deleteUser } from "../services/userApiService";
+import { getUserProfile, getUsers, login, signup, borrowingNumber, ordersNumber, patchAdmin, deleteUser, editUser } from "../services/userApiService";
 
 export default function useUsers() {
     const [isLoading, setIsLoading] = useState(true);
@@ -117,24 +117,24 @@ export default function useUsers() {
         }
     }, []);
 
-    // const handleUpdateUser = useCallback(
-    //     async (userId, userFromClient) => {
-    //         setIsLoading(true);
-    //         try {
-    //             const userProfile = await editUser(userId, normalizeUpdateUser(userFromClient));
-    //             setProfile(userProfile);
-    //             setSnack("success", "The profile has been successfully updated");
-    //             setTimeout(() => {
-    //                 navigate(ROUTES.USER_PROFILE);
-    //             }, 300);
-    //         } catch (err) {
-    //             setError(err.message);
-    //             setSnack("error", err.message);
-    //         }
-    //         setIsLoading(false);
-    //     },
-    //     [setSnack, navigate]
-    // );
+    const handleUpdateUser = useCallback(
+        async (userId, userFromClient) => {
+            setIsLoading(true);
+            try {
+                const userProfile = await editUser(userId, userFromClient);
+                setProfile(userProfile);
+                setSnack("success", "הפרופיל עודכן בהצלחה");
+                setTimeout(() => {
+                    navigate(ROUTES.USER_PROFILE + "/" + userId);
+                }, 300);
+            } catch (err) {
+                setError(err.message);
+                setSnack("error", err.message);
+            }
+            setIsLoading(false);
+        },
+        []
+    );
 
     return {
         isLoading,
@@ -151,6 +151,6 @@ export default function useUsers() {
         onToggleUserRole,
         onDeleteUser,
         setUsers,
-        // handleUpdateUser
+        handleUpdateUser
     };
 }

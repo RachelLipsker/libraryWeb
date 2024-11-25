@@ -9,11 +9,12 @@ export default function BorrowingHistoryPage() {
     useEffect(() => {
         getAllBorrowings();
     }, [])
+    const reverseBorrowings = [...borrowings].reverse();
 
     if (isLoading) return <Spinner />
     if (error) return <Error errorMessage={error} />
     return (
         <>
-            <Borrowings borrowings={borrowings} />
+            <Borrowings borrowings={reverseBorrowings} />
         </>)
 }

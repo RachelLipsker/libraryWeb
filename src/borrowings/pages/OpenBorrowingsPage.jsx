@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import useBorrowings from '../hooks/useBorrowings';
 import Spinner from '../../components/Spinner';
 import Error from '../../components/Error';
@@ -9,11 +9,12 @@ export default function OpenBorrowingsPage() {
     useEffect(() => {
         getOpenBorrowings();
     }, [])
+    const reverseBorrowings = [...borrowings].reverse();
 
     if (isLoading) return <Spinner />
     if (error) return <Error errorMessage={error} />
     return (
         <>
-            <Borrowings borrowings={borrowings} />
+            <Borrowings borrowings={reverseBorrowings} />
         </>)
 }

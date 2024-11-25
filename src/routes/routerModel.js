@@ -14,6 +14,7 @@ const ROUTES = {
     USER_HISTORY: "/borrowings-user-history",
     OPEN_BORROWINGS: "/open-borrowings",
     LATE_BORROWINGS: "/late-borrowings",
+    EDIT_PROFILE: "/edit-profile"
 };
 
 export default ROUTES;

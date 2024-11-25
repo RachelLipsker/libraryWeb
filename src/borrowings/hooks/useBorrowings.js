@@ -17,7 +17,7 @@ export default function useBorrowings() {
         async (userId, bookId) => {
             try {
                 const { user, book, borrowing } = await createBorrowing(userId, bookId);
-                setBorrowings(borrowings => [...borrowings, borrowing]);
+                setBorrowings(borrowings => [borrowing, ...borrowings]);
                 setSnack("success", "ההשאלה בוצעה בהצלחה")
                 return { user, book, borrowing };
             } catch (err) {
@@ -42,7 +42,7 @@ export default function useBorrowings() {
                         );
                     } else {
                         // אם ההשאלה לא קיימת, מוסיפים אותה לסוף המערך
-                        return [...borrowings, borrowing];
+                        return [borrowing, ...borrowings];
                     }
                 });
 

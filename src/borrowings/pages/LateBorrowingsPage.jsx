@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import useBorrowings from '../hooks/useBorrowings';
 import Spinner from '../../components/Spinner';
 import Error from '../../components/Error';
