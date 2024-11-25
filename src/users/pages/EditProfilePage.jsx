@@ -39,7 +39,7 @@ export default function EditProfilePage() {
     }, [user, id, profile]);
 
 
-    // if (user._id != id) return <Navigate to={ROUTES.ROOT} replace />
+    if (user?._id != id) return <Navigate to={ROUTES.ROOT} replace />
 
     return (
         <>

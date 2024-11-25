@@ -1,6 +1,4 @@
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
-import FavoriteIcon from "@mui/icons-material/Favorite";
+import React, { useEffect, useState } from "react";
 import {
     Box,
     Button,
@@ -11,101 +9,118 @@ import {
     Tooltip,
     Typography
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useCurrentUser } from "../../users/providers/UserProvider";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "../../routes/routerModel";
 
-export default function BookComponent({ book, handleLike, handleOrder, profile, booksToOrder, userOrdersLength, ableToOrder, setAbleToOrder, setUserOrdersLength, handleDeleteBook }) {
+export default function BookComponent({
+    book,
+    handleLike,
+    handleOrder,
+    profile,
+    booksToOrder,
+    userOrdersLength,
+    ableToOrder,
+    setAbleToOrder,
+    setUserOrdersLength,
+    handleDeleteBook,
+    list // משתנה חדש לבחירת תצוגה
+}) {
     const navigate = useNavigate();
     const { user } = useCurrentUser();
     const [liked, setLiked] = useState(() => {
         if (!user) {
             return false;
         } else {
-            return !!book.likes.find(id => id === user._id)
+            return !!book.likes.find((id) => id === user._id);
         }
     });
-    const [likesLength, setLikesLength] = useState(book.likes.length)
+    const [likesLength, setLikesLength] = useState(book.likes.length);
     const likeBook = () => {
         handleLike(book._id, user);
-        if (liked) {
-            setLikesLength(prev => prev - 1)
-        } else {
-            setLikesLength(prev => prev + 1)
-        }
-        setLiked(prev => !prev);
-    }
+        setLikesLength((prev) => (liked ? prev - 1 : prev + 1));
+        setLiked((prev) => !prev);
+    };
 
     const [idOrders, setIdOrders] = useState(() => {
-        return book.orders.map(order => order.userId) || [];
-    })
+        return book.orders.map((order) => order.userId) || [];
+    });
 
-    const [ordered, setordered] = useState(() => {
+    const [ordered, setOrdered] = useState(() => {
         if (!user) {
             return false;
         } else {
-            return !!idOrders.find(id => id == user._id)
+            return !!idOrders.find((id) => id === user._id);
         }
     });
 
-    const [bookOrdersLength, setBookOrdersLength] = useState(book.orders?.length || 0)
+    const [bookOrdersLength, setBookOrdersLength] = useState(book.orders?.length || 0);
 
     const [userNames, setUserNames] = useState(() => {
-        return book.orders?.map(order => order.userName) || [];
-    })
+        return book.orders?.map((order) => order.userName) || [];
+    });
 
     useEffect(() => {
         if (!user || userOrdersLength >= booksToOrder) {
-            setAbleToOrder(false)
+            setAbleToOrder(false);
         } else {
-            setAbleToOrder(true)
+            setAbleToOrder(true);
         }
-    }, [userOrdersLength, booksToOrder, user])
+    }, [userOrdersLength, booksToOrder, user]);
 
     const orderBook = () => {
-        handleOrder(book._id, user._id)
-        if (ordered) {
-            setUserOrdersLength(prev => prev - 1)
-            setBookOrdersLength(prev => prev - 1)
-            setUserNames(prev => prev.slice(0, -1));
-            setIdOrders(prev => prev.slice(0, -1))
-        } else {
-            setUserOrdersLength(prev => prev + 1);
-            setBookOrdersLength(prev => prev + 1);
-            setUserNames(prev => [...prev, profile.firstName + " " + profile.lastName]);
-            setIdOrders(prev => [...prev, user._id]);
-        }
-
-        setordered(prev => !prev);
-    }
+        handleOrder(book._id, user._id);
+        setOrdered((prev) => !prev);
+        setUserOrdersLength((prev) => (ordered ? prev - 1 : prev + 1));
+        setBookOrdersLength((prev) => (ordered ? prev - 1 : prev + 1));
+        setUserNames((prev) =>
+            ordered ? prev.slice(0, -1) : [...prev, `${profile.firstName} ${profile.lastName}`]
+        );
+        setIdOrders((prev) => (ordered ? prev.slice(0, -1) : [...prev, user._id]));
+    };
 
     return (
-        <Card key={book._id} sx={{ width: 200, m: 2 }}> {/* הגדלת הרוחב */}
+        <Card
+            key={book._id}
+            sx={{
+                display: list ? "flex" : "block", // תצוגת שורות או כרטיסים
+                flexDirection: list ? "row" : "column",
+                alignItems: list ? "center" : "unset",
+                width: list ? "100%" : 200,
+                m: 2,
+            }}
+        >
             <CardMedia
                 component="img"
-                height="140"
+                height={list ? "100px" : "140px"} // גובה קטן יותר בתצוגת שורות
                 image={book.image}
                 alt={book.alt}
+                sx={{ width: list ? "100px" : "100%" }} // גובה ורוחב מותאם
             />
-            <CardContent sx={{ textAlign: "right" }}>
+            <CardContent sx={{ textAlign: "right", flex: list ? 1 : "unset" }}>
                 <Typography variant="h6" component="div">
                     {book.title}
                 </Typography>
 
-
-
                 <Box sx={{ display: "flex", justifyContent: "space-between" }}>
                     <Box>
-                        {user?.isAdmin ? <>
-                            {book.inLibrary ? <IconButton onClick={() => handleDeleteBook(book._id)}>
-                                <DeleteIcon />
-                            </IconButton> : null}
-                            <IconButton onClick={() => navigate(ROUTES.EDIT_BOOK + "/" + book._id)}>
-                                <EditIcon />
-                            </IconButton>
-
-                        </> : null}
+                        {user?.isAdmin && (
+                            <>
+                                {book.inLibrary && (
+                                    <IconButton onClick={() => handleDeleteBook(book._id)}>
+                                        <DeleteIcon />
+                                    </IconButton>
+                                )}
+                                <IconButton
+                                    onClick={() => navigate(`${ROUTES.EDIT_BOOK}/${book._id}`)}
+                                >
+                                    <EditIcon />
+                                </IconButton>
+                            </>
+                        )}
                     </Box>
 
                     <Box>
@@ -115,24 +130,15 @@ export default function BookComponent({ book, handleLike, handleOrder, profile, 
                         <Typography variant="body2" color="text.secondary">
                             ז'אנר: {book.genre.name}
                         </Typography>
-
                     </Box>
                 </Box>
-                {/* הספר בספרייה / הספר מושאל */}
-                <Typography
-                    variant="body2"
-                    sx={{ color: "#5066C1", mt: 2 }}
-                >
+
+                <Typography variant="body2" sx={{ color: "#5066C1", mt: 2 }}>
                     {book.inLibrary ? "הספר בספרייה" : "הספר מושאל"}
                 </Typography>
 
-                {/* הספר מוזמן / הספר לא מוזמן */}
                 <Tooltip
-                    title={
-                        bookOrdersLength > 0
-                            ? userNames.join(", ")
-                            : ""
-                    }
+                    title={bookOrdersLength > 0 ? userNames.join(", ") : ""}
                     arrow
                 >
                     <Typography variant="body2" sx={{ color: "#F68832" }}>
@@ -142,18 +148,18 @@ export default function BookComponent({ book, handleLike, handleOrder, profile, 
                     </Typography>
                 </Tooltip>
 
-
-
-                {/* כפתור הזמן ואייקון לב */}
-                <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", mt: 2 }}>
-
+                <Box
+                    sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        mt: 2,
+                    }}
+                >
                     <Button
                         variant="contained"
                         sx={{ backgroundColor: "#F68832" }}
-                        disabled={!(ordered || ableToOrder)
-                            //||
-                            //  !!profile?.openBorrowings?.find(borrow => borrow.bookId == book._id)
-                        }
+                        disabled={!(ordered || ableToOrder)}
                         onClick={orderBook}
                     >
                         {ordered ? "הסר הזמנה" : "הזמן"}
@@ -161,13 +167,14 @@ export default function BookComponent({ book, handleLike, handleOrder, profile, 
 
                     <Box sx={{ display: "flex", alignItems: "center" }}>
                         <IconButton onClick={likeBook}>
-                            <FavoriteIcon style={{ color: liked ? "#91D2F1" : "inherit" }} />
+                            <FavoriteIcon
+                                style={{ color: liked ? "#91D2F1" : "inherit" }}
+                            />
                         </IconButton>
                         <Typography variant="body2">{likesLength}</Typography>
                     </Box>
                 </Box>
             </CardContent>
-
-        </Card >
+        </Card>
     );
 }

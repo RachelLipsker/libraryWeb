@@ -64,12 +64,11 @@ export default function AllAuthors({ books }) {
             >
                 <Button
                     variant="contained"
-                    color="primary"
                     onClick={handleAddAuthor}
                     sx={{
                         whiteSpace: "nowrap",
                         height: "54px",
-                        backgroundColor: "#5066C1",
+                        backgroundColor: "#06A28C",
                     }}
                 >
                     הוסף

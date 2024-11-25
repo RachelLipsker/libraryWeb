@@ -1,9 +1,9 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { changeLikeStatus, changeOrderStatus, createBook, deleteBook, editBook, getBook, getBooks, resetOrders } from "../services/booksApiService";
 import useAxios from "../../hooks/useAxios";
 import ROUTES from "../../routes/routerModel";
 import { useSnack } from "../../providers/snackBarProvider";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 export default function useBooks() {
 
@@ -11,9 +11,28 @@ export default function useBooks() {
     const [book, setBook] = useState(null);
     const [error, setError] = useState();
     const [isLoading, setIsLoading] = useState(true);
+    const [query, setQuery] = useState("");
+    const [filterBooks, setFilterBooks] = useState(null);
+    const [searchParams] = useSearchParams();
     const navigate = useNavigate();
     const setSnack = useSnack();
     useAxios();
+
+    useEffect(() => {
+        setQuery(searchParams.get("q") ?? "");
+    }, [searchParams]);
+
+    useEffect(() => {
+        if (books) {
+            setFilterBooks(
+                books.filter(
+                    book =>
+                        book.title.includes(query)
+                )
+            )
+            setIsLoading(false);
+        }
+    }, [books, query])
 
 
     const getAllBooks = useCallback(async () => {
@@ -23,7 +42,6 @@ export default function useBooks() {
         } catch (err) {
             setError(err.message);
         }
-        setIsLoading(false);
     }, []);
 
 
@@ -127,5 +145,6 @@ export default function useBooks() {
         getBookById,
         book,
         setBooks,
+        filterBooks
     };
 }

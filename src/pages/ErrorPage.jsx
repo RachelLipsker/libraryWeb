@@ -8,23 +8,24 @@ export default function ErrorPage() {
     const navigate = useNavigate();
     return (
         <>
-            <PageHeader title="ERROR 404" subtitle="page not found" />
+            <PageHeader title="שגיאה 404" subtitle="הדף לא נמצא" />
             <Container sx={{
                 display: "flex",
+                flexDirection: "row-reverse",
                 alignItems: "start",
                 justifyContent: "space-between",
                 mt: 4
             }}>
-                <Box>
-                    <Typography variant='h5' component="p">oops... the requwsted URL wasn't found on this server.
+                <Box sx={{ textAlign: "right" }}>
+                    <Typography variant='h5' component="p">אופס... הכתובת המבוקשת לא נמצאה
                     </Typography>
                     <Button onClick={() => navigate(ROUTES.ROOT)}>
-                        CLICK HERE TO RETURN TO THE HOME PAGE...
+                        לחץ כאן לחזרה לדף הבית
                     </Button>
                 </Box>
                 <Box
                     component="img"
-                    src={"../../public/images/broken-robot-error.png"}
+                    src={"/images/broken-robot-error.png"}
                     alt="an error"
                     sx={{ width: '100%', maxWidth: 340 }}
                 />

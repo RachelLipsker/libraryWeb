@@ -65,12 +65,11 @@ export default function AllGenres({ books }) {
             >
                 <Button
                     variant="contained"
-                    color="primary"
                     onClick={handleAddGenre}
                     sx={{
                         whiteSpace: "nowrap",
                         height: "54px",
-                        backgroundColor: "#5066C1",
+                        backgroundColor: "#06A28C",
                     }}
                 >
                     הוסף
