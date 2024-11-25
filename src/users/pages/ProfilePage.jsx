@@ -2,18 +2,23 @@ import React, { useEffect } from 'react';
 import { Box, Card, CardContent, CardMedia, Typography, Button, Grid, Divider } from '@mui/material';
 import useUsers from '../hooks/useUsers';
 import { useCurrentUser } from '../providers/UserProvider';
-import { Link, Navigate, useParams } from 'react-router-dom';
+import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import ROUTES from '../../routes/routerModel';
 import Spinner from '../../components/Spinner';
 import Error from '../../components/Error';
+import useBorrowings from '../../borrowings/hooks/useBorrowings';
+import Borrowings from '../../borrowings/components/Borrowings';
 
 export default function ProfilePage() {
     const { id } = useParams();
     const { user } = useCurrentUser();
     const { getUserById, profile, isLoading, error } = useUsers();
+    const { getLastUserBorrowings, borrowings } = useBorrowings();
+    const navigate = useNavigate();
 
     useEffect(() => {
         getUserById(id);
+        getLastUserBorrowings(id);
     }, [id]);
 
     if (!user || (user?._id != id && !user?.isAdmin)) return <Navigate to={ROUTES.ROOT} replace />;
@@ -120,7 +125,7 @@ export default function ProfilePage() {
 
             {/* Borrowing and Order Information */}
             <Grid container spacing={3}>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12}>
                     <Card sx={{ borderRadius: 2, boxShadow: 2 }}>
                         <CardContent>
                             <Typography variant="h6" gutterBottom sx={{ textAlign: 'right', fontWeight: 'bold' }}>
@@ -157,13 +162,10 @@ export default function ProfilePage() {
                     </Card>
                 </Grid>
 
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12}>
                     <Card sx={{ borderRadius: 2, boxShadow: 2 }}>
-                        <CardContent>
-                            <Typography variant="h6" gutterBottom sx={{ textAlign: 'right', fontWeight: 'bold' }}>
-                                השאלות אחרונות
-                            </Typography>
-                            {profile.openBorrowings.length > 0 ? (
+
+                        {/* {profile.openBorrowings.length > 0 ? (
                                 profile.openBorrowings.slice(0, 3).map((borrow, index) => (
                                     <Box key={index} sx={{ mb: 2 }}>
                                         <Typography
@@ -189,12 +191,21 @@ export default function ProfilePage() {
                                 >
                                     אין השאלות אחרונות
                                 </Typography>
-                            )}
-                            <Link to="/borrowings" style={{ textDecoration: 'none' }}>
-                                <Button variant="outlined" color="primary" sx={{ width: '100%', marginTop: 2, color: "#91D2F1" }}>
-                                    כל ההשאלות
-                                </Button>
-                            </Link>
+                            )} */}
+
+                        <CardContent>
+                            <Typography variant="h6" gutterBottom sx={{ textAlign: 'right', fontWeight: 'bold' }}>
+                                השאלות אחרונות
+                            </Typography>
+                            <Borrowings borrowings={borrowings} />
+                            <Button
+                                variant="outlined"
+                                color="primary"
+                                sx={{ width: '100%', marginTop: 2, color: "#91D2F1" }}
+                                onClick={() => { navigate(ROUTES.USER_HISTORY + "/" + id) }}>
+                                כל ההשאלות
+                            </Button>
+
                         </CardContent>
                     </Card>
                 </Grid>

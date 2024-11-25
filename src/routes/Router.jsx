@@ -10,6 +10,10 @@ import ErrorPage from '../pages/ErrorPage'
 import EditBookPage from '../books/pages/EditBookPage'
 import UsersPage from '../users/pages/UsersPage'
 import BorrowingsPage from '../borrowings/pages/BorrowingsPage'
+import BorrowingHistoryPage from '../borrowings/pages/BorrowingHistoryPage'
+import BorrowingUserHistoryPage from '../borrowings/pages/BorrowingUserHistoryPage'
+import OpenBorrowingsPage from '../borrowings/pages/OpenBorrowingsPage'
+import LateBorrowingsPage from '../borrowings/pages/LateBorrowingsPage'
 
 export default function Router() {
     return (
@@ -22,7 +26,10 @@ export default function Router() {
             <Route path={ROUTES.EDIT_BOOK + "/:id"} element={<EditBookPage />} />
             <Route path={ROUTES.USERS} element={<UsersPage />} />
             <Route path={ROUTES.BORROWINGS_MANAGEMENT} element={<BorrowingsPage />} />
-
+            <Route path={ROUTES.BORROWINGS_HISTORY} element={<BorrowingHistoryPage />} />
+            <Route path={ROUTES.USER_HISTORY + "/:id"} element={<BorrowingUserHistoryPage />} />
+            <Route path={ROUTES.OPEN_BORROWINGS} element={<OpenBorrowingsPage />} />
+            <Route path={ROUTES.LATE_BORROWINGS} element={<LateBorrowingsPage />} />
 
             <Route path='*' element={<ErrorPage />} />
 

@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useSnack } from "../../providers/snackBarProvider";
 import useAxios from "../../hooks/useAxios";
 import { useCallback, useState } from "react";
-import { createBorrowing, getBorrowings, returnBook } from "../services/borrowingsApiService";
+import { createBorrowing, getBorrowings, lastUserBorrowings, lateBorrowings, openBorrowings, returnBook, userBorrowings } from "../services/borrowingsApiService";
 
 export default function useBorrowings() {
 
@@ -68,7 +68,53 @@ export default function useBorrowings() {
         }, []
     );
 
+    const getUserBorrowings = useCallback(
+        async (id) => {
+            try {
+                const borrowings = await userBorrowings(id);
+                setBorrowings(borrowings);
+            } catch (err) {
+                setSnack("error", err.message);
+            }
+            setIsLoading(false);
+        }, []
+    );
 
+    const getLateBorrowings = useCallback(
+        async () => {
+            try {
+                const borrowings = await lateBorrowings();
+                setBorrowings(borrowings);
+            } catch (err) {
+                setSnack("error", err.message);
+            }
+            setIsLoading(false);
+        }, []
+    );
+
+    const getOpenBorrowings = useCallback(
+        async () => {
+            try {
+                const borrowings = await openBorrowings();
+                setBorrowings(borrowings);
+            } catch (err) {
+                setSnack("error", err.message);
+            }
+            setIsLoading(false);
+        }, []
+    );
+
+    const getLastUserBorrowings = useCallback(
+        async (id) => {
+            try {
+                const borrowings = await lastUserBorrowings(id);
+                setBorrowings(borrowings);
+            } catch (err) {
+                setSnack("error", err.message);
+            }
+            setIsLoading(false);
+        }, []
+    );
 
     return {
         isLoading,
@@ -77,5 +123,9 @@ export default function useBorrowings() {
         onReturn,
         borrowings,
         getAllBorrowings,
+        getUserBorrowings,
+        getLateBorrowings,
+        getOpenBorrowings,
+        getLastUserBorrowings,
     };
 }

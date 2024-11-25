@@ -9,7 +9,11 @@ const ROUTES = {
     USER_PROFILE: "/user-info",
     EDIT_BOOK: "/edit-book",
     USERS: "/users",
-    BORROWINGS_MANAGEMENT: "/borrowings-management"
+    BORROWINGS_MANAGEMENT: "/borrowings-management",
+    BORROWINGS_HISTORY: "/borrowings-history",
+    USER_HISTORY: "/borrowings-user-history",
+    OPEN_BORROWINGS: "/open-borrowings",
+    LATE_BORROWINGS: "/late-borrowings",
 };
 
 export default ROUTES;

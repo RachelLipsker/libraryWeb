@@ -29,7 +29,7 @@ export const returnBook = async (userId, bookId) => {
 
 export const userBorrowings = async (id) => {
     try {
-        const response = await axios.get(apiUrl + "/" + id);
+        const response = await axios.get(apiUrl + "/user/" + id);
         const data = response.data;
         return data;
     } catch (err) {
@@ -38,7 +38,7 @@ export const userBorrowings = async (id) => {
     }
 };
 
-export const allBorrowings = async () => {
+export const getBorrowings = async () => {
     try {
         const response = await axios.get(apiUrl);
         const data = response.data;
@@ -84,13 +84,3 @@ export const lastUserBorrowings = async (id) => {
     }
 };
 
-export const getBorrowings = async () => {
-    try {
-        const response = await axios.get(apiUrl);
-        const data = response.data;
-        return data;
-    } catch (err) {
-        console.log(err);
-        throw new Error(err.message);
-    }
-};
