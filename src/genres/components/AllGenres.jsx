@@ -14,15 +14,15 @@ import useGenres from "../hooks/useGenres";
 import Spinner from "../../components/Spinner";
 import Error from "../../components/Error";
 
-export default function AllGenres({ books }) {
-    const { genres, getAllGenres, isLoading, error, addGenre, editGenre, deleteGenre } = useGenres();
+export default function AllGenres({ books, genres, addGenre, editGenre, deleteGenre }) {
+    // const { genres, getAllGenres, isLoading, error, addGenre, editGenre, deleteGenre } = useGenres();
     const [newGenreName, setNewGenreName] = useState("");
     const [editingGenreId, setEditingGenreId] = useState(null);
     const [editedGenreName, setEditedGenreName] = useState("");
 
-    useEffect(() => {
-        getAllGenres();
-    }, []);
+    // useEffect(() => {
+    //     getAllGenres();
+    // }, []);
 
     const handleAddGenre = () => {
         addGenre(newGenreName);
@@ -42,8 +42,8 @@ export default function AllGenres({ books }) {
         }
     };
 
-    if (isLoading) return <Spinner />;
-    if (error) return <Error errorMessage={error} />;
+    // if (isLoading) return <Spinner />;
+    // if (error) return <Error errorMessage={error} />;
 
     return (
         <Box

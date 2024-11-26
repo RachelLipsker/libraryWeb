@@ -14,15 +14,15 @@ import useAuthors from "../hooks/useAuthors";
 import Spinner from "../../components/Spinner";
 import Error from "../../components/Error";
 
-export default function AllAuthors({ books }) {
-    const { authors, getAllAuthors, isLoading, error, addAuthor, editAuthor, deleteAuthor } = useAuthors();
+export default function AllAuthors({ books, authors, addAuthor, editAuthor, deleteAuthor }) {
+    // const { authors, getAllAuthors, isLoading, error, addAuthor, editAuthor, deleteAuthor } = useAuthors();
     const [newAuthorName, setNewAuthorName] = useState("");
     const [editingAuthorId, setEditingAuthorId] = useState(null);
     const [editedAuthorName, setEditedAuthorName] = useState("");
 
-    useEffect(() => {
-        getAllAuthors();
-    }, []);
+    // useEffect(() => {
+    //     getAllAuthors();
+    // }, []);
 
     const handleAddAuthor = () => {
         addAuthor(newAuthorName);
@@ -42,8 +42,8 @@ export default function AllAuthors({ books }) {
         }
     };
 
-    if (isLoading) return <Spinner />;
-    if (error) return <Error errorMessage={error} />;
+    // if (isLoading) return <Spinner />;
+    // if (error) return <Error errorMessage={error} />;
 
     return (
         <Box

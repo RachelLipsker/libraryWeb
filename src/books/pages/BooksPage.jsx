@@ -15,13 +15,24 @@ import ResetOrders from '../components/ResetOrders';
 import Search from '../components/Search';
 import GridViewIcon from '@mui/icons-material/GridView';
 import ViewListIcon from '@mui/icons-material/ViewList';
+import SortBooks from '../components/SortBooks';
+import useSortBooks from '../hooks/useSortBooks';
+import FilterBooks from '../components/FilterBooks';
+import useAuthors from '../../authors/hooks/useAuthors';
+import useGenres from '../../genres/hooks/useGenres';
 
 export default function BooksPage() {
-    const { filterBooks, books, getAllBooks, isLoading, error, handleLike, handleOrder, handleDeleteBook, handleResetOrders } =
-        useBooks();
+    const { filterBooks, books, getAllBooks, isLoading, error, handleLike, handleOrder, handleDeleteBook, handleResetOrders, handleFilterChange, secondFilterBooks } = useBooks();
     const { user } = useCurrentUser();
     const { profile, getUserById } = useUsers();
     const [list, setList] = useState(false);
+    const { authors, getAllAuthors, addAuthor, editAuthor, deleteAuthor } = useAuthors();
+    const { genres, getAllGenres, addGenre, editGenre, deleteGenre } = useGenres();
+    const { sortOption, setSortOption, sortBooks } = useSortBooks();
+
+    const sortedBooks = sortBooks(secondFilterBooks);
+
+
 
     const [openComponents, setOpenComponents] = useState({
         orders: false,
@@ -38,6 +49,11 @@ export default function BooksPage() {
 
 
     useEffect(() => {
+        getAllAuthors();
+        getAllGenres();
+    }, []);
+
+    useEffect(() => {
         getAllBooks();
         if (user) {
             getUserById(user._id);
@@ -46,18 +62,9 @@ export default function BooksPage() {
     return (
         <>
             <Box sx={{ display: "flex", alignItems: "start", mt: 2 }}>
-                {/* {user?.isAdmin ? <>
-                    <Box>
-                        <ResetOrders handleResetOrders={handleResetOrders} />
-                        <AllAuthors books={books} />
-                        <AllGenres books={books} />
-                    </Box>
-                </> : null} */}
-
                 <Box sx={{ mt: 2, width: "300px" }}>
                     {user?.isAdmin && (
                         <>
-                            {/* כפתור וניהול הזמנות */}
                             <Box sx={{ mb: 2 }}>
                                 <Button
                                     variant="contained"
@@ -86,12 +93,16 @@ export default function BooksPage() {
                                 </Button>
                                 {openComponents.authors && (
                                     <Box sx={{ mt: 2 }}>
-                                        <AllAuthors books={books} />
+                                        <AllAuthors
+                                            books={books}
+                                            authors={authors}
+                                            editAuthor={editAuthor}
+                                            deleteAuthor={deleteAuthor}
+                                            addAuthor={addAuthor}
+                                        />
                                     </Box>
                                 )}
                             </Box>
-
-                            {/* כפתור וניהול ז'אנרים */}
                             <Box sx={{ mb: 2 }}>
                                 <Button
                                     variant="contained"
@@ -103,12 +114,22 @@ export default function BooksPage() {
                                 </Button>
                                 {openComponents.genres && (
                                     <Box sx={{ mt: 2 }}>
-                                        <AllGenres books={books} />
+                                        <AllGenres books={books}
+                                            genres={genres}
+                                            addGenre={addGenre}
+                                            editGenre={editGenre}
+                                            deleteGenre={deleteGenre} />
                                     </Box>
                                 )}
                             </Box>
                         </>
                     )}
+                    <SortBooks setSortOption={setSortOption} />
+                    <FilterBooks
+                        authorsList={authors} // מערך הסופרים עם _id ו-name
+                        genresList={genres} // מערך הז'אנרים עם _id ו-name
+                        onFilterChange={handleFilterChange}
+                    />
                 </Box>
 
                 <Box sx={{ flexGrow: 1 }}>
@@ -120,7 +141,7 @@ export default function BooksPage() {
                         </IconButton>
                     </Box>
                     <BooksFeedback
-                        filterBooks={filterBooks}
+                        filterBooks={sortedBooks}
                         books={books}
                         isLoading={isLoading}
                         error={error}
