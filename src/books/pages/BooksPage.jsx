@@ -60,14 +60,29 @@ export default function BooksPage() {
     }, [user]);
     return (
         <>
-            <Box sx={{ display: "flex", alignItems: "start", mt: 2 }}>
-                <Box sx={{ mt: 2, width: "300px" }}>
+            <Box
+                sx={{
+                    display: "flex",
+                    alignItems: "start",
+                    mt: 2,
+                    flexDirection: {
+                        xs: "column-reverse", // במובייל (מסך קטן) טורים
+                        sm: "row",    // במסכים גדולים יותר שורות
+                    },
+                }}
+            >           <Box
+                sx={{
+                    mt: 2,
+                    width: "280px",
+                    alignSelf: { xs: "center", sm: "flex-start" }, // במובייל ממורכז, במסכים גדולים בשמאל
+                }}
+            >
                     {user?.isAdmin && (
                         <>
                             <Box sx={{ mb: 2 }}>
                                 <Button
                                     variant="contained"
-                                    sx={{ backgroundColor: "#5066C1" }}
+                                    sx={{ backgroundColor: "#5066C1", width: "280px" }}
                                     onClick={() => toggleComponent("orders")}
                                     fullWidth
                                 >
@@ -80,7 +95,6 @@ export default function BooksPage() {
                                 )}
                             </Box>
 
-                            {/* כפתור וניהול סופרים */}
                             <Box sx={{ mb: 2 }}>
                                 <Button
                                     variant="contained"
@@ -102,6 +116,7 @@ export default function BooksPage() {
                                     </Box>
                                 )}
                             </Box>
+
                             <Box sx={{ mb: 2 }}>
                                 <Button
                                     variant="contained"
@@ -113,11 +128,13 @@ export default function BooksPage() {
                                 </Button>
                                 {openComponents.genres && (
                                     <Box sx={{ mt: 2 }}>
-                                        <AllGenres books={books}
+                                        <AllGenres
+                                            books={books}
                                             genres={genres}
                                             addGenre={addGenre}
                                             editGenre={editGenre}
-                                            deleteGenre={deleteGenre} />
+                                            deleteGenre={deleteGenre}
+                                        />
                                     </Box>
                                 )}
                             </Box>
@@ -130,6 +147,7 @@ export default function BooksPage() {
                         onFilterChange={handleFilterChange}
                     />
                 </Box>
+
 
                 <Box sx={{ flexGrow: 1 }}>
                     <Box sx={{ display: 'flex', justifyContent: 'center', m: 2, gap: 2 }}>

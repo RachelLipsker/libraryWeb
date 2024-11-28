@@ -8,7 +8,7 @@ const bookSchema = {
     genre: Joi.string().min(2).max(1024).required(),
     image: Joi.string()
         .ruleset.regex(urlRegex)
-        .rule({ message: 'book.image "url" mast be a valid url' })
+        .rule({ message: 'הכנס url תקין' })
         .allow(""),
     alt: Joi.string().min(2).max(256).allow(""),
 };

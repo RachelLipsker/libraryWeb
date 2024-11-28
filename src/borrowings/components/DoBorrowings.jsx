@@ -65,7 +65,6 @@ const DoBorrowings = ({ users, books, onBorrow, onReturn }) => {
             flexWrap="wrap"
             gap={2}
             dir="rtl"
-
             sx={{
                 width: "100%",
                 justifyContent: "space-between",
@@ -75,10 +74,12 @@ const DoBorrowings = ({ users, books, onBorrow, onReturn }) => {
                 borderRadius: 2,
                 "@media (max-width: 600px)": {
                     flexDirection: "column",
-                    alignItems: "flex-start",
+                    alignItems: "center", // מרכז את התוכן במצב מובייל
+                    justifyContent: "center", // מרכז את האלמנטים האופקיים
                 },
             }}
         >
+
 
             <Autocomplete
                 value={selectedUser} // מסנכרן את הערך של ה־Autocomplete עם הסטייט

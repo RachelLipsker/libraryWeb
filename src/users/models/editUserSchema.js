@@ -9,7 +9,7 @@ const editUserSchema = {
         .ruleset.regex(
             /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/
         )
-        .rule({ message: "user image must be a valid url" })
+        .rule({ message: "הכנס url תקין" })
         .allow(""),
 
     alt: Joi.string().min(2).max(256).allow(""),

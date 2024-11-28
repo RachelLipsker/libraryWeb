@@ -23,7 +23,7 @@ export default function Search() {
                 ),
             }}
             sx={{
-                width: '400px',
+                maxWidth: '400px',
                 //display: { xs: "none", sm: "inline-flex" },
                 borderRadius: '4px'
             }}
