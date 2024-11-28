@@ -1,4 +1,3 @@
-
 import React from 'react';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -8,6 +7,7 @@ import { useSearchParams } from 'react-router-dom';
 export default function Search() {
     const [searchParams, setSearchParams] = useSearchParams();
     const handleChange = ({ target }) => setSearchParams({ q: target.value })
+
     return (
         <TextField
             variant="outlined"
@@ -24,8 +24,9 @@ export default function Search() {
             }}
             sx={{
                 maxWidth: '400px',
-                //display: { xs: "none", sm: "inline-flex" },
-                borderRadius: '4px'
+                textAlign: 'right', // יישור הטקסט לימין
+                direction: 'rtl',   // כיוון הכתיבה מימין לשמאל
+                borderRadius: '4px',
             }}
         />
     );
