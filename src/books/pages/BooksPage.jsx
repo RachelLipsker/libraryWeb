@@ -22,7 +22,7 @@ import useAuthors from '../../authors/hooks/useAuthors';
 import useGenres from '../../genres/hooks/useGenres';
 
 export default function BooksPage() {
-    const { filterBooks, books, getAllBooks, isLoading, error, handleLike, handleOrder, handleDeleteBook, handleResetOrders, handleFilterChange, secondFilterBooks } = useBooks();
+    const { books, getAllBooks, isLoading, error, handleLike, handleOrder, handleDeleteBook, handleResetOrders, handleFilterChange, secondFilterBooks } = useBooks();
     const { user } = useCurrentUser();
     const { profile, getUserById } = useUsers();
     const [list, setList] = useState(false);
@@ -31,7 +31,6 @@ export default function BooksPage() {
     const { sortOption, setSortOption, sortBooks } = useSortBooks();
 
     const sortedBooks = sortBooks(secondFilterBooks);
-
 
 
     const [openComponents, setOpenComponents] = useState({

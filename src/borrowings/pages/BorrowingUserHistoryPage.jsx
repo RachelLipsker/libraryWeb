@@ -19,7 +19,7 @@ export default function BorrowingUserHistoryPage() {
     const reverseBorrowings = [...borrowings].reverse();
 
 
-    // if (user._id != id && !user.isAdmin) return <Navigate to={ROUTES.ROOT} replace />
+    if (user?._id != id && !user?.isAdmin) return <Navigate to={ROUTES.ROOT} replace />
 
     if (isLoading) return <Spinner />
     if (error) return <Error errorMessage={error} />

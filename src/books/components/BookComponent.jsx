@@ -27,7 +27,7 @@ export default function BookComponent({
     setAbleToOrder,
     setUserOrdersLength,
     handleDeleteBook,
-    list // משתנה חדש לבחירת תצוגה
+    list
 }) {
     const navigate = useNavigate();
     const { user } = useCurrentUser();
@@ -159,7 +159,7 @@ export default function BookComponent({
                     <Button
                         variant="contained"
                         sx={{ backgroundColor: "#F68832" }}
-                        disabled={!(ordered || ableToOrder)}
+                        disabled={!(ordered || ableToOrder) || (!!profile?.openBorrowings?.map(borrow => borrow.bookId).find(id => id == book._id))}
                         onClick={orderBook}
                     >
                         {ordered ? "הסר הזמנה" : "הזמן"}

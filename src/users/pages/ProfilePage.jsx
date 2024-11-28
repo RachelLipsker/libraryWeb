@@ -21,10 +21,10 @@ export default function ProfilePage() {
         getLastUserBorrowings(id);
     }, [id]);
 
-    if (!user || (user?._id != id && !user?.isAdmin)) return <Navigate to={ROUTES.ROOT} replace />;
+
     if (isLoading) return <Spinner />;
     if (error) return <Error errorMessage={error} />;
-
+    if (!user || (user?._id != id && !user?.isAdmin)) return <Navigate to={ROUTES.ROOT} replace />;
     return (
         <Box sx={{ maxWidth: '1200px', margin: 'auto', p: 3, direction: 'rtl' }}>
 

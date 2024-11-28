@@ -18,9 +18,11 @@ export default function UsersPage() {
         getAllUsers();
     }, [])
 
-    // if (!user?.isAdmin) return <Navigate to={ROUTES.ROOT} replace />;
     if (isLoading) return <Spinner />
+
     if (error) return <Error errorMessage={error} />
+    if (!user?.isAdmin) return <Navigate to={ROUTES.ROOT} replace />;
+
     return (
         <>
             <AllUsers users={users}

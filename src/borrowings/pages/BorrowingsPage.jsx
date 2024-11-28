@@ -6,12 +6,15 @@ import DoBorrowings from '../components/DoBorrowings';
 import Spinner from '../../components/Spinner';
 import Error from '../../components/Error';
 import Borrowings from '../components/Borrowings';
+import { useCurrentUser } from '../../users/providers/UserProvider';
+import { Navigate } from 'react-router-dom';
+import ROUTES from '../../routes/routerModel';
 
 export default function BorrowingsPage() {
     const { users, getAllUsers, setUsers, isLoading, error } = useUsers();
     const { books, getAllBooks, setBooks } = useBooks();
     const { onBorrow, onReturn, borrowings } = useBorrowings();
-
+    const { user } = useCurrentUser();
     useEffect(() => {
         getAllBooks();
         getAllUsers();
@@ -33,6 +36,7 @@ export default function BorrowingsPage() {
 
     if (isLoading) return <Spinner />
     if (error) return <Error errorMessage={error} />
+    if (!user?.isAdmin) return <Navigate to={ROUTES.ROOT} replace />
 
     return (
         <>

@@ -79,7 +79,7 @@ export default function FilterBooks({ authorsList, genresList, onFilterChange })
             </Typography>
 
             <FormControl component="fieldset" fullWidth>
-                <FormLabel
+                {/* <FormLabel
                     component="legend"
                     sx={{
                         textAlign: "right",
@@ -88,7 +88,7 @@ export default function FilterBooks({ authorsList, genresList, onFilterChange })
                     }}
                 >
                     אפשרויות תצוגה
-                </FormLabel>
+                </FormLabel> */}
                 <RadioGroup
                     value={showAll ? "all" : "filtered"}
                     onChange={handleShowAllChange}
@@ -189,21 +189,33 @@ export default function FilterBooks({ authorsList, genresList, onFilterChange })
             </FormControl>
 
             <Divider sx={{ my: 2 }} />
-            <FormControlLabel
-                control={
-                    <Checkbox
-                        checked={filters.inLibrary}
-                        onChange={handleInLibraryChange}
-                    />
-                }
-                label="ספרים שבספריה"
-                sx={{
-                    display: "flex",
-                    flexDirection: "row-reverse", // הריבוע מימין לטקסט
-                    justifyContent: "flex-start",
-                    alignItems: "center",
-                }}
-            />
+            <FormControl component="fieldset" fullWidth>
+                <FormLabel
+                    component="legend"
+                    sx={{
+                        textAlign: "right",
+                        fontWeight: "bold",
+                        marginBottom: 1,
+                    }}
+                >
+                    סנן לפי זמינות
+                </FormLabel>
+                <FormControlLabel
+                    control={
+                        <Checkbox
+                            checked={filters.inLibrary}
+                            onChange={handleInLibraryChange}
+                        />
+                    }
+                    label="ספרים שבספריה"
+                    sx={{
+                        display: "flex",
+                        flexDirection: "row-reverse", // הריבוע מימין לטקסט
+                        justifyContent: "flex-start",
+                        alignItems: "center",
+                    }}
+                />
+            </FormControl>
 
             {/* <FormControlLabel
                 control={
