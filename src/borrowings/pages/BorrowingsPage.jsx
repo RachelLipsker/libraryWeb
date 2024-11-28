@@ -9,6 +9,7 @@ import Borrowings from '../components/Borrowings';
 import { useCurrentUser } from '../../users/providers/UserProvider';
 import { Navigate } from 'react-router-dom';
 import ROUTES from '../../routes/routerModel';
+import PageHeader from '../../components/PageHeader';
 
 export default function BorrowingsPage() {
     const { users, getAllUsers, setUsers, isLoading, error } = useUsers();
@@ -40,6 +41,7 @@ export default function BorrowingsPage() {
 
     return (
         <>
+            <PageHeader title="ניהול השאלות" />
             <DoBorrowings
                 users={users}
                 books={books}

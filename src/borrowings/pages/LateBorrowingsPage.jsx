@@ -5,6 +5,7 @@ import Error from '../../components/Error';
 import Borrowings from '../components/Borrowings';
 import ROUTES from '../../routes/routerModel';
 import { useCurrentUser } from '../../users/providers/UserProvider';
+import PageHeader from '../../components/PageHeader';
 
 export default function LateBorrowingsPage() {
     const { borrowings, getLateBorrowings, isLoading, error } = useBorrowings();
@@ -20,6 +21,7 @@ export default function LateBorrowingsPage() {
 
     return (
         <>
+            <PageHeader title="השאלות באיחור" />
             <Borrowings borrowings={borrowings} />
         </>)
 }

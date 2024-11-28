@@ -6,6 +6,7 @@ import Error from '../../components/Error';
 import { Navigate, useParams } from 'react-router-dom';
 import { useCurrentUser } from '../../users/providers/UserProvider';
 import ROUTES from '../../routes/routerModel';
+import PageHeader from '../../components/PageHeader';
 
 export default function BorrowingUserHistoryPage() {
     const { borrowings, getUserBorrowings, isLoading, error } = useBorrowings();
@@ -25,6 +26,7 @@ export default function BorrowingUserHistoryPage() {
     if (error) return <Error errorMessage={error} />
     return (
         <>
+            <PageHeader title="היסטוריית השאלות שלי" />
             <Borrowings borrowings={reverseBorrowings} />
         </>)
 }

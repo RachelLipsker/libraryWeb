@@ -6,6 +6,7 @@ import Borrowings from '../components/Borrowings';
 import { useCurrentUser } from '../../users/providers/UserProvider';
 import { Navigate } from 'react-router-dom';
 import ROUTES from '../../routes/routerModel';
+import PageHeader from '../../components/PageHeader';
 
 export default function OpenBorrowingsPage() {
     const { borrowings, getOpenBorrowings, isLoading, error } = useBorrowings();
@@ -22,6 +23,7 @@ export default function OpenBorrowingsPage() {
 
     return (
         <>
+            <PageHeader title="השאלות פתוחות" />
             <Borrowings borrowings={reverseBorrowings} />
         </>)
 }

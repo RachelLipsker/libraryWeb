@@ -6,6 +6,7 @@ import Error from '../../components/Error';
 import { useCurrentUser } from '../providers/UserProvider';
 import { Navigate } from 'react-router-dom';
 import ROUTES from '../../routes/routerModel';
+import PageHeader from '../../components/PageHeader';
 
 export default function UsersPage() {
     const { user } = useCurrentUser();
@@ -25,6 +26,7 @@ export default function UsersPage() {
 
     return (
         <>
+            <PageHeader title="ניהול משתמשים" />
             <AllUsers users={users}
                 onUpdateBooksToBorrowing={onUpdateBooksToBorrowing}
                 onUpdateBooksToOrder={onUpdateBooksToOrder}
